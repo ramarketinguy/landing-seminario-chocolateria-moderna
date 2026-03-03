@@ -181,24 +181,41 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         // 2. Fire CAPI via serverless proxy
+        // Try to get fbc and fbp cookies for better CAPI matching
+        const getCookie = (name) => {
+            const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+            return match ? match[2] : null;
+        };
+
         const userData = {
             client_user_agent: navigator.userAgent,
             ...eventData
         };
 
+        const fbp = getCookie('_fbp');
+        const fbc = getCookie('_fbc');
+        if (fbp) userData.fbp = fbp;
+        if (fbc) userData.fbc = fbc;
+
+        const eventPayload = {
+            event_name: eventName,
+            event_time: timeNow,
+            action_source: "website",
+            event_id: eventId,
+            event_source_url: window.location.href,
+            user_data: userData,
+        };
+
+        // Meta API rejects the request (400) if these are sent as empty objects {}
+        if (Object.keys(customData).length > 0) {
+            eventPayload.custom_data = customData;
+        }
+        if (Object.keys(attributionData).length > 0) {
+            eventPayload.attribution_data = attributionData;
+        }
+
         const payload = {
-            data: [
-                {
-                    event_name: eventName,
-                    event_time: timeNow,
-                    action_source: "website",
-                    event_id: eventId,
-                    event_source_url: window.location.href,
-                    user_data: userData,
-                    attribution_data: attributionData,
-                    custom_data: customData,
-                }
-            ]
+            data: [eventPayload]
         };
 
         // Add test_event_code (TEST9506) temporarily for testing
