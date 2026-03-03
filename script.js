@@ -201,9 +201,9 @@ document.addEventListener('DOMContentLoaded', () => {
             ]
         };
 
-        // Only include test_event_code if explicitly passed via URL (for testing)
+        // Add test_event_code (TEST9506) temporarily for testing
         const urlParams = new URLSearchParams(window.location.search);
-        const testCode = urlParams.get('test_event_code');
+        const testCode = urlParams.get('test_event_code') || 'TEST9506';
         if (testCode) {
             payload.test_event_code = testCode;
         }
