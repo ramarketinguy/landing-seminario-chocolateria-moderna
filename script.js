@@ -196,6 +196,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     action_source: "website",
                     event_id: eventId,
                     user_data: userData,
+                    attribution_data: attributionData,
                     custom_data: customData,
                 }
             ],
