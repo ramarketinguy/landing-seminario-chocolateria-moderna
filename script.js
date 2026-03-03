@@ -236,7 +236,7 @@ document.addEventListener('DOMContentLoaded', () => {
     trackEvent('PageView');
 
     // --- Track Purchase on "Reservar" buttons ---
-    const btnsReservar = ['btn-reservar', 'hero-btn-reservar'];
+    const btnsReservar = ['btn-reservar', 'hero-btn-reservar', 'btn-mercadopago'];
     btnsReservar.forEach(id => {
         const btn = document.getElementById(id);
         if (btn) {

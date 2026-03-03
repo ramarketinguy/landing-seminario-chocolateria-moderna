@@ -287,7 +287,7 @@
                     <h3>Invierte en tu Pasión</h3>
                     <div class="price">
                         <span class="currency">$</span>
-                        <span class="amount" id="priceAmount" data-target="2900">0</span>
+                        <span class="amount" id="priceAmount" data-target="3190">0</span>
                     </div>
                     <p class="price-desc">Costo total de la Masterclass</p>
                 </div>
@@ -297,24 +297,47 @@
                         <div class="include-pill"><i data-feather="coffee"></i> Degustación incluida</div>
 
                     </div>
-                    <div class="pricing-terms">
-                        <div class="term">
-                            <i data-feather="check-circle"></i>
-                            <p><strong>Reserva:</strong> Seña del 50% ($1450) antes del 14 de Marzo para asegurar tu
-                                lugar. (No reembolsable)</p>
+                    <div class="pricing-options"
+                        style="display: flex; flex-direction: column; gap: 2rem; margin-top: 2rem; text-align: left;">
+                        <!-- Option 1: MercadoPago -->
+                        <div class="pricing-option"
+                            style="background: rgba(var(--primary-color-rgb), 0.05); padding: 1.5rem; border-radius: 12px; border: 1px solid rgba(var(--primary-color-rgb), 0.2);">
+                            <h4
+                                style="color: var(--primary-color); display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem; font-size: 1.2rem;">
+                                <i data-feather="credit-card"></i> Pagar Online</h4>
+                            <p style="margin-bottom: 1rem; color: var(--text-secondary);">Abona el costo total ($3190) y
+                                financialo hasta en <strong>12 cuotas</strong> con tarjetas de crédito.</p>
+                            <a href="https://mpago.la/1nuto3i" id="btn-mercadopago" target="_blank"
+                                rel="noopener noreferrer" class="btn btn-secondary btn-large pulse-glow"
+                                style="width: 100%; justify-content: center; background: #009ee3; color: white; border: none;">
+                                <i data-feather="external-link"></i> Ir a Mercado Pago
+                            </a>
                         </div>
-                        <div class="term">
-                            <i data-feather="check-circle"></i>
-                            <p><strong>Saldo:</strong> El 50% restante puede abonarse el mismo día en efectivo, o 48 hs
-                                antes por transferencia.</p>
+
+                        <!-- Option 2: Transferencia -->
+                        <div class="pricing-option" style="padding: 1rem 0;">
+                            <h4
+                                style="color: var(--text-primary); display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem; font-size: 1.2rem;">
+                                <i data-feather="dollar-sign"></i> Transferencia o Contado</h4>
+                            <div class="pricing-terms" style="margin-bottom: 1.5rem;">
+                                <div class="term" style="margin-bottom: 0.8rem;">
+                                    <i data-feather="check-circle" style="color: var(--primary-color);"></i>
+                                    <p><strong>Beneficio 10% OFF:</strong> Pagando con transferencia o en efectivo el
+                                        costo te queda en <strong>$2900</strong>.</p>
+                                </div>
+                                <div class="term">
+                                    <i data-feather="check-circle" style="color: var(--primary-color);"></i>
+                                    <p><strong>Flexibilidad:</strong> Seña con el 50% ($1450) antes del 14 de Marzo y el
+                                        saldo restante liquídalo el mismo día del seminario.</p>
+                                </div>
+                            </div>
+                            <a href="https://wa.me/59898058264?text=Hola,%20quisiera%20reservar%20mis%20lugares%20con%20transferencia/contado%20para%20el%20seminario%20de%20chocolater%C3%ADa."
+                                id="btn-reservar" target="_blank" rel="noopener noreferrer"
+                                class="btn btn-primary btn-large pulse-glow"
+                                style="width: 100%; justify-content: center;">
+                                <i data-feather="message-circle"></i> Coordinar Transferencia
+                            </a>
                         </div>
-                    </div>
-                    <div class="pricing-btn-group">
-                        <a href="https://wa.me/59898058264?text=Hola,%20quisiera%20reservar%20lugar%20para%20el%20seminario%20de%20chocolater%C3%ADa%20moderna."
-                            id="btn-reservar" target="_blank" rel="noopener noreferrer"
-                            class="btn btn-primary btn-large pulse-glow">
-                            <i data-feather="message-circle"></i> Reservar por WhatsApp
-                        </a>
                     </div>
                 </div>
                 <div class="pricing-footer">
