@@ -185,6 +185,9 @@ document.addEventListener('DOMContentLoaded', () => {
             ...eventData
         };
 
+        const urlParams = new URLSearchParams(window.location.search);
+        const testCode = urlParams.get('test_event_code') || 'TEST79055';
+
         const payload = {
             data: [
                 {
@@ -193,10 +196,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     action_source: "website",
                     event_id: eventId,
                     user_data: userData,
-                    attribution_data: attributionData,
                     custom_data: customData,
                 }
-            ]
+            ],
+            test_event_code: testCode
         };
 
         fetch('/api/meta-capi', {
