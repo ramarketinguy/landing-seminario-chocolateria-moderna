@@ -171,22 +171,20 @@ document.addEventListener('DOMContentLoaded', () => {
     // Meta CAPI & Pixel Tracking
     // =============================================
     function trackEvent(eventName, eventData = {}, customData = {}, attributionData = {}) {
-        // 1. Fire Pixel directly
-        if (typeof fbq === 'function') {
-            fbq('track', eventName, customData);
-        }
-
-        // 2. Fire CAPI via serverless proxy
+        // Generate unique event_id for deduplication between Pixel and CAPI
         const timeNow = Math.floor(Date.now() / 1000);
         const eventId = 'evt_' + timeNow + '_' + Math.random().toString(36).substr(2, 9);
 
+        // 1. Fire Pixel directly (with event_id for deduplication)
+        if (typeof fbq === 'function') {
+            fbq('track', eventName, customData, { eventID: eventId });
+        }
+
+        // 2. Fire CAPI via serverless proxy
         const userData = {
             client_user_agent: navigator.userAgent,
             ...eventData
         };
-
-        const urlParams = new URLSearchParams(window.location.search);
-        const testCode = urlParams.get('test_event_code') || 'TEST79055';
 
         const payload = {
             data: [
@@ -195,13 +193,20 @@ document.addEventListener('DOMContentLoaded', () => {
                     event_time: timeNow,
                     action_source: "website",
                     event_id: eventId,
+                    event_source_url: window.location.href,
                     user_data: userData,
                     attribution_data: attributionData,
                     custom_data: customData,
                 }
-            ],
-            test_event_code: testCode
+            ]
         };
+
+        // Only include test_event_code if explicitly passed via URL (for testing)
+        const urlParams = new URLSearchParams(window.location.search);
+        const testCode = urlParams.get('test_event_code');
+        if (testCode) {
+            payload.test_event_code = testCode;
+        }
 
         fetch('/api/meta-capi', {
             method: 'POST',
@@ -210,6 +215,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }).catch(err => console.error('Meta CAPI tracking error:', err));
     }
 
+    // --- Track PageView via CAPI (Pixel already fires in <head>) ---
+    trackEvent('PageView');
+
+    // --- Track Purchase on "Reservar" buttons ---
     const btnsReservar = ['btn-reservar', 'hero-btn-reservar'];
     btnsReservar.forEach(id => {
         const btn = document.getElementById(id);
@@ -218,10 +227,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 trackEvent(
                     'Purchase',
                     {},
-                    { currency: "USD", value: "2900" }, // Updated to total price ($2900)
+                    { currency: "UYU", value: "2900" },
                     { attribution_share: "0.5" }
                 );
             });
         }
     });
+
+    // --- Track Contact on floating WhatsApp button ---
+    if (floatingWa) {
+        floatingWa.addEventListener('click', () => {
+            trackEvent('Contact', {}, { content_name: 'WhatsApp Flotante' });
+        });
+    }
 });
