@@ -31,7 +31,10 @@ export default async function handler(req, res) {
 
         // --- CRITICAL FIX: Meta requires client_ip_address for Server Events ---
         // Get the real IP from Vercel headers
-        const clientIp = req.headers['x-forwarded-for']?.split(',')[0].trim() || req.socket?.remoteAddress || '0.0.0.0';
+        const clientIp = req.headers['x-forwarded-for']?.split(',')[0].trim() ||
+            req.headers['x-real-ip'] ||
+            req.socket?.remoteAddress ||
+            '';
 
         payload.data = payload.data.map(event => {
             // Ensure user_data exists
@@ -39,7 +42,7 @@ export default async function handler(req, res) {
                 event.user_data = {};
             }
             // Inject the real client IP (Mandatory for CAPI QoS)
-            if (!event.user_data.client_ip_address) {
+            if (!event.user_data.client_ip_address && clientIp) {
                 event.user_data.client_ip_address = clientIp;
             }
 
@@ -51,6 +54,8 @@ export default async function handler(req, res) {
 
             return event;
         });
+
+        console.log("Sending to Meta Payload:", JSON.stringify(payload, null, 2));
 
         const facebookUrl = `https://graph.facebook.com/v19.0/${PIXEL_ID}/events?access_token=${ACCESS_TOKEN}`;
 
