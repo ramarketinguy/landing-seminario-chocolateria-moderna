@@ -29,6 +29,29 @@ export default async function handler(req, res) {
             return res.status(400).json({ error: 'Invalid payload format. Expected { data: [...] }' });
         }
 
+        // --- CRITICAL FIX: Meta requires client_ip_address for Server Events ---
+        // Get the real IP from Vercel headers
+        const clientIp = req.headers['x-forwarded-for']?.split(',')[0].trim() || req.socket?.remoteAddress || '0.0.0.0';
+
+        payload.data = payload.data.map(event => {
+            // Ensure user_data exists
+            if (!event.user_data) {
+                event.user_data = {};
+            }
+            // Inject the real client IP (Mandatory for CAPI QoS)
+            if (!event.user_data.client_ip_address) {
+                event.user_data.client_ip_address = clientIp;
+            }
+
+            // Clean up: attribution_data is not standard at the root of a CAPI event
+            // and can cause 400 Bad Request if strictly validated.
+            if (event.attribution_data) {
+                delete event.attribution_data;
+            }
+
+            return event;
+        });
+
         const facebookUrl = `https://graph.facebook.com/v19.0/${PIXEL_ID}/events?access_token=${ACCESS_TOKEN}`;
 
         const response = await fetch(facebookUrl, {
