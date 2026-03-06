@@ -218,9 +218,9 @@ document.addEventListener('DOMContentLoaded', () => {
             data: [eventPayload]
         };
 
-        // Add test_event_code (TEST9506) temporarily for testing
+        // Obtener test_event_code de la URL si existe para probar eventos
         const urlParams = new URLSearchParams(window.location.search);
-        const testCode = urlParams.get('test_event_code') || 'TEST9506';
+        const testCode = urlParams.get('test_event_code');
         if (testCode) {
             payload.test_event_code = testCode;
         }
@@ -235,8 +235,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Track PageView via CAPI (Pixel already fires in <head>) ---
     trackEvent('PageView');
 
-    // --- Track Purchase on "Reservar" buttons ---
-    const btnsReservar = ['btn-reservar', 'hero-btn-reservar', 'btn-mercadopago'];
+    // --- Track Purchase sólo en los botones de "Reservar" (MercadoPago y Transferencia) ---
+    const btnsReservar = ['btn-reservar', 'btn-mercadopago'];
     btnsReservar.forEach(id => {
         const btn = document.getElementById(id);
         if (btn) {
@@ -244,12 +244,19 @@ document.addEventListener('DOMContentLoaded', () => {
                 trackEvent(
                     'Purchase',
                     {},
-                    { currency: "UYU", value: "2900" },
-                    { attribution_share: "0.5" }
+                    { currency: "UYU", value: 2900 }
                 );
             });
         }
     });
+
+    // --- Track InitiateCheckout en el botón del Hero (solo hace scroll, no es compra todavía) ---
+    const heroBtn = document.getElementById('hero-btn-reservar');
+    if (heroBtn) {
+        heroBtn.addEventListener('click', () => {
+            trackEvent('InitiateCheckout', {}, { content_name: 'Hero CTA Scroll' });
+        });
+    }
 
     // --- Track Contact on floating WhatsApp button ---
     if (floatingWa) {
