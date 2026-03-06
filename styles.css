@@ -257,12 +257,29 @@ img {
 }
 
 @keyframes chocoFlow {
-    0% { height: 0%; }
-    15% { height: 8%; }
-    40% { height: 22%; }
-    65% { height: 55%; }
-    85% { height: 85%; }
-    100% { height: calc(100% + 200px); }
+    0% {
+        height: 0%;
+    }
+
+    15% {
+        height: 8%;
+    }
+
+    40% {
+        height: 22%;
+    }
+
+    65% {
+        height: 55%;
+    }
+
+    85% {
+        height: 85%;
+    }
+
+    100% {
+        height: calc(100% + 200px);
+    }
 }
 
 /* ============== HERO SECTION ============== */
@@ -876,6 +893,134 @@ img {
     }
 }
 
+/* ============== TEAM SECTION ============== */
+.bg-gradient-alt {
+    background: linear-gradient(to top, var(--bg-color), var(--surface-dark));
+}
+
+.team-split {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 3rem;
+    align-items: center;
+}
+
+.team-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+}
+
+.team-card {
+    display: flex;
+    flex-direction: column;
+    padding: 3rem;
+    position: relative;
+    overflow: hidden;
+    height: 100%;
+}
+
+.team-split .profile-img-wrap {
+    flex: 0 0 400px;
+    max-width: 100%;
+}
+
+.team-split .team-info {
+    flex: 1;
+}
+
+.profile-img-wrap {
+    position: relative;
+    border-radius: 20px;
+    overflow: hidden;
+    margin-bottom: 2rem;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+}
+
+.team-split .profile-img-wrap {
+    margin-bottom: 0;
+}
+
+.profile-img-wrap img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    display: block;
+    aspect-ratio: 4/5;
+    transition: var(--transition);
+}
+
+.team-card:hover .profile-img-wrap img {
+    transform: scale(1.05);
+}
+
+.team-social {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+    padding: 2rem 1.5rem 1rem;
+    transform: translateY(100%);
+    transition: var(--transition);
+    display: flex;
+    justify-content: center;
+}
+
+.team-card:hover .team-social {
+    transform: translateY(0);
+}
+
+.team-social a {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #fff;
+    font-weight: 600;
+    background: rgba(207, 161, 95, 0.9);
+    padding: 0.8rem 1.5rem;
+    border-radius: 50px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.team-social a:hover {
+    background: var(--accent-gold);
+    color: #fff;
+}
+
+.team-info h3 {
+    font-size: 2rem;
+    color: #fff;
+    margin-bottom: 0.2rem;
+}
+
+.team-role {
+    display: inline-block;
+    color: var(--accent-gold);
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
+    font-weight: 500;
+}
+
+.team-info p {
+    color: var(--text-muted);
+    margin-bottom: 1rem;
+    font-size: 1.05rem;
+}
+
+.team-info p:last-child {
+    margin-bottom: 0;
+}
+
+.quote {
+    font-style: italic;
+    color: var(--accent-gold) !important;
+    font-size: 1.15rem !important;
+    border-left: 3px solid var(--accent-gold);
+    padding-left: 1rem;
+    margin-top: 1.5rem;
+}
+
 /* ============== FOOTER ============== */
 .footer {
     background: #0f0706;
@@ -953,6 +1098,21 @@ img {
     .countdown-inner {
         flex-direction: column;
         gap: 0.8rem;
+    }
+
+    .team-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .team-split {
+        flex-direction: column;
+    }
+
+    .team-split .profile-img-wrap {
+        flex: auto;
+        width: 100%;
+        max-width: 400px;
+        margin: 0 auto 2rem;
     }
 }
 
