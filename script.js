@@ -76,7 +76,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // =============================================
     // Countdown Timer
     // =============================================
-    const eventDate = new Date('2026-03-22T14:00:00-03:00').getTime();
+    const eventDate = new Date('2026-05-24T14:00:00-03:00').getTime();
     const countDays = document.getElementById('countDays');
     const countHours = document.getElementById('countHours');
     const countMinutes = document.getElementById('countMinutes');
@@ -177,7 +177,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function trackEvent(eventName, eventData = {}, customData = {}, attributionData = {}) {
         // Generate unique event_id for deduplication between Pixel and CAPI
         const timeNow = Math.floor(Date.now() / 1000);
-        const eventId = 'evt_' + timeNow + '_' + Math.random().toString(36).substr(2, 9);
+        const eventId = 'evt_' + timeNow + '_' + Math.random().toString(36).slice(2, 11);
 
         // 1. Fire Pixel directly (with event_id for deduplication)
         if (typeof fbq === 'function') {
@@ -313,5 +313,122 @@ document.addEventListener('DOMContentLoaded', () => {
                 content_type: 'product'
             });
         });
+    }
+
+    // =============================================
+    // FAQ Accordion
+    // =============================================
+    const faqItems = document.querySelectorAll('.faq-item');
+    faqItems.forEach(item => {
+        const question = item.querySelector('.faq-question');
+        if (!question) return;
+        question.addEventListener('click', () => {
+            const isOpen = item.classList.contains('faq-open');
+            faqItems.forEach(i => i.classList.remove('faq-open'));
+            if (!isOpen) {
+                item.classList.add('faq-open');
+            }
+        });
+    });
+
+    // =============================================
+    // Social Proof Notifications
+    // =============================================
+    const socialNotifications = [
+        { name: "Lucía M.", action: "se acaba de inscribir" },
+        { name: "Carlos R.", action: "reservó su lugar por transferencia" },
+        { name: "Sofía G.", action: "consultó por WhatsApp" },
+        { name: "Martín P.", action: "se inscribió al Seminario" },
+        { name: "Valentina S.", action: "aprovechó la oferta preventa" },
+        { name: "Facundo D.", action: "reservó para 2 personas" },
+        { name: "Laura B.", action: "completó su inscripción" },
+        { name: "Joaquín L.", action: "está viendo el seminario ahora" }
+    ];
+
+    function createNotificationToast() {
+        const toast = document.createElement('div');
+        toast.className = 'notification-toast';
+        toast.id = 'notificationToast';
+        toast.innerHTML = `
+            <img src="https://ui-avatars.com/api/?name=User&background=CFA15F&color=fff" class="notif-img" alt="User">
+            <div class="notif-content">
+                <p class="notif-text"><strong id="notif-name"></strong> <span id="notif-action"></span></p>
+                <p class="notif-time" id="notif-time"></p>
+            </div>
+        `;
+        document.body.appendChild(toast);
+        return toast;
+    }
+
+    function showRandomNotification() {
+        let toast = document.getElementById('notificationToast');
+        if (!toast) toast = createNotificationToast();
+
+        const notif = socialNotifications[Math.floor(Math.random() * socialNotifications.length)];
+        const nameEl = document.getElementById('notif-name');
+        const actionEl = document.getElementById('notif-action');
+        const timeEl = document.getElementById('notif-time');
+        const imgEl = toast.querySelector('.notif-img');
+
+        nameEl.textContent = notif.name;
+        actionEl.textContent = notif.action;
+        
+        const minutes = Math.floor(Math.random() * 55) + 2;
+        timeEl.textContent = `Hace ${minutes} minutos`;
+        
+        // Random avatar color based on name
+        const colors = ['CFA15F', '1B0E0D', '805D3F', '5D3A1A'];
+        const randomColor = colors[Math.floor(Math.random() * colors.length)];
+        imgEl.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(notif.name)}&background=${randomColor}&color=fff&bold=true`;
+
+        toast.classList.add('show');
+
+        setTimeout(() => {
+            toast.classList.remove('show');
+        }, 5000);
+    }
+
+    // Show first notification after 10 seconds, then every 20-40 seconds
+    if (socialNotifications.length > 0) {
+        setTimeout(() => {
+            showRandomNotification();
+            setInterval(() => {
+                showRandomNotification();
+            }, Math.floor(Math.random() * (40000 - 20000 + 1)) + 20000);
+        }, 10000);
+    }
+
+    // =============================================
+    // Scarcity Counter Logic (Persistent)
+    // =============================================
+    const slotsEl = document.getElementById('slotsCount');
+    if (slotsEl) {
+        let currentSlots = parseInt(localStorage.getItem('choco_slots_remain')) || 14;
+        
+        // Initial set
+        slotsEl.textContent = currentSlots;
+
+        // Occasionally decrement slots to simulate sales
+        function simulateSale() {
+            if (currentSlots <= 3) return; // Keep at least 3
+            
+            // Random chance to decrement (20%)
+            if (Math.random() < 0.2) {
+                currentSlots--;
+                localStorage.setItem('choco_slots_remain', currentSlots);
+                
+                // Animate change
+                slotsEl.style.transform = 'scale(1.4)';
+                slotsEl.style.color = '#fff';
+                setTimeout(() => {
+                    slotsEl.textContent = currentSlots;
+                    slotsEl.style.transform = 'scale(1)';
+                    slotsEl.style.color = '';
+                }, 300);
+            }
+        }
+
+        // Check for "sale" every 1-3 minutes
+        setInterval(simulateSale, Math.floor(Math.random() * (180000 - 60000 + 1)) + 60000);
     }
 });
