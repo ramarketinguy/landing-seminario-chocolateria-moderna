@@ -422,6 +422,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
         toast.classList.add('show');
         sessionNotificationCount++;
+        
+        // Decrement slots when a notification appears (simulating a sale/inquiry)
+        if (typeof decrementSlots === 'function') {
+            decrementSlots();
+        }
 
         setTimeout(() => {
             toast.classList.remove('show');
@@ -451,9 +456,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const lastVisit = parseInt(localStorage.getItem('choco_last_visit')) || 0;
         const now = Date.now();
         
-        // If first time or data reset, start at 30
-        if (isNaN(currentSlots)) {
-            currentSlots = 30;
+        // If first time or data reset, start between 18 and 24
+        if (isNaN(currentSlots) || currentSlots >= 30) {
+            currentSlots = Math.floor(Math.random() * (24 - 18 + 1)) + 18;
         }
 
         // Logic: if they return after more than 10 minutes, decrement 1-2 slots
@@ -469,21 +474,25 @@ document.addEventListener('DOMContentLoaded', () => {
         // Initial display
         slotsEl.textContent = currentSlots;
 
+        // Function to decrement slots (exported for notifications)
+        window.decrementSlots = function() {
+            if (currentSlots <= 3) return;
+            currentSlots--;
+            localStorage.setItem('choco_slots_remain', currentSlots);
+            
+            // Animate only if visible
+            slotsEl.classList.add('pulse-text');
+            slotsEl.textContent = currentSlots;
+            setTimeout(() => slotsEl.classList.remove('pulse-text'), 600);
+        };
+
         // Simulate sales while browsing (more frequent if currentSlots is high)
         function simulateSale() {
             if (currentSlots <= 4) return;
             
-            // Random chance to decrement (15%)
-            if (Math.random() < 0.15) {
-                currentSlots--;
-                localStorage.setItem('choco_slots_remain', currentSlots);
-                
-                // Animate
-                slotsEl.classList.add('pulse-text');
-                setTimeout(() => {
-                    slotsEl.textContent = currentSlots;
-                    setTimeout(() => slotsEl.classList.remove('pulse-text'), 300);
-                }, 300);
+            // Random chance to decrement independently (10%)
+            if (Math.random() < 0.10) {
+                window.decrementSlots();
             }
         }
 
