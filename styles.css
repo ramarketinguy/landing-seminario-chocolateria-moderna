@@ -1534,9 +1534,9 @@ img {
 }
 
 .sponsor-card img {
-    height: 80px; /* Increased from 55px */
+    height: 110px; /* Increased from 80px */
     width: auto;
-    max-width: 200px; /* Increased from 150px */
+    max-width: 250px; /* Increased from 200px */
     object-fit: contain;
     filter: none;
     opacity: 0.95;
@@ -1558,7 +1558,7 @@ img {
         padding: 1.2rem;
     }
     .sponsor-card img {
-        height: 65px;
+        height: 85px; /* Increased from 65px */
     }
 }
 

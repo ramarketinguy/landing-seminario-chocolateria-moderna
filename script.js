@@ -450,8 +450,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // =============================================
     // Scarcity Counter Logic (30 Slots & Persistence)
     // =============================================
-    const slotsEl = document.getElementById('slotsCount');
-    if (slotsEl) {
+    const scarcityElements = document.querySelectorAll('.slots-count-val');
+    if (scarcityElements.length > 0) {
         let currentSlots = parseInt(localStorage.getItem('choco_slots_remain'));
         const lastVisit = parseInt(localStorage.getItem('choco_last_visit')) || 0;
         const now = Date.now();
@@ -472,7 +472,7 @@ document.addEventListener('DOMContentLoaded', () => {
         localStorage.setItem('choco_slots_remain', currentSlots);
         
         // Initial display
-        slotsEl.textContent = currentSlots;
+        scarcityElements.forEach(el => el.textContent = currentSlots);
 
         // Function to decrement slots (exported for notifications)
         window.decrementSlots = function() {
@@ -480,23 +480,21 @@ document.addEventListener('DOMContentLoaded', () => {
             currentSlots--;
             localStorage.setItem('choco_slots_remain', currentSlots);
             
-            // Animate only if visible
-            slotsEl.classList.add('pulse-text');
-            slotsEl.textContent = currentSlots;
-            setTimeout(() => slotsEl.classList.remove('pulse-text'), 600);
+            // Update all instances
+            scarcityElements.forEach(el => {
+                el.classList.add('pulse-text');
+                el.textContent = currentSlots;
+                setTimeout(() => el.classList.remove('pulse-text'), 600);
+            });
         };
 
         // Simulate sales while browsing (more frequent if currentSlots is high)
         function simulateSale() {
             if (currentSlots <= 4) return;
-            
-            // Random chance to decrement independently (10%)
             if (Math.random() < 0.10) {
                 window.decrementSlots();
             }
         }
-
-        // Check for sale periodically while on page (every 45-90s)
         setInterval(simulateSale, Math.floor(Math.random() * (90000 - 45000 + 1)) + 45000);
     }
 });

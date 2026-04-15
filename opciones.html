@@ -27,14 +27,50 @@
 
     <style>
     /* ══════════════════════════════════════════
-       NAV
+       NAV & SCARCITY
     ══════════════════════════════════════════ */
-    .op-nav { background:rgba(15,7,6,.97); border-bottom:1px solid var(--glass-border); padding:1rem 0; position:sticky; top:0; z-index:200; }
-    .op-nav .container { display:flex; align-items:center; justify-content:space-between; }
-    .op-back { display:inline-flex; align-items:center; gap:.5rem; color:var(--text-muted); font-size:.9rem; transition:var(--transition); }
-    .op-back:hover { color:var(--accent-gold); }
-    .op-brand { font-family:var(--font-heading); font-size:1rem; color:var(--text-muted); }
-    .op-brand span { color:var(--accent-gold); }
+    .op-nav { 
+        background: rgba(15, 7, 6, 0.98); 
+        border-bottom: 1px solid var(--glass-border); 
+        padding: 0.8rem 0; 
+        position: sticky; 
+        top: 0; 
+        z-index: 200; 
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+    }
+    .nav-container { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+    .nav-left { flex: 1; display: flex; align-items: center; }
+    .nav-center { flex: 1; display: flex; justify-content: center; }
+    .nav-right { flex: 1; display: flex; justify-content: flex-end; }
+
+    .op-back { display: inline-flex; align-items: center; gap: .5rem; color: var(--text-muted); font-size: .9rem; transition: var(--transition); text-decoration: none; }
+    .op-back:hover { color: var(--accent-gold); }
+    .op-brand { font-family: var(--font-heading); font-size: 1.1rem; color: var(--text-muted); white-space: nowrap; }
+    .op-brand span { color: var(--accent-gold); }
+
+    .nav-scarcity {
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+        background: rgba(200, 60, 60, 0.15);
+        border: 1px solid rgba(200, 60, 60, 0.3);
+        padding: 0.4rem 0.8rem;
+        border-radius: 50px;
+        color: #ff8a8a;
+        font-size: 0.8rem;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+    .nav-scarcity i { width: 14px; height: 14px; color: #ff6b6b; }
+    .slots-count-val { color: #fff; font-weight: 700; }
+
+    .desktop-only { display: flex; }
+    @media (max-width: 800px) {
+        .nav-center.desktop-only { display: none; }
+        .op-nav { padding: 0.6rem 0; }
+        .nav-scarcity { padding: 0.3rem 0.6rem; font-size: 0.75rem; }
+    }
 
     /* ══════════════════════════════════════════
        PAGE HEADER
@@ -219,27 +255,21 @@
 
 <!-- Nav -->
 <nav class="op-nav">
-    <div class="container">
-        <a href="index.html" class="op-back"><i data-feather="arrow-left"></i> Volver</a>
-        <span class="op-brand">Blanc Sucre <span>Patissier</span></span>
-    </div>
-</nav>
-
-<!-- Countdown -->
-<div class="countdown-bar">
-    <div class="countdown-inner">
-        <span class="countdown-label"><i data-feather="clock" class="countdown-icon"></i> El seminario comienza en:</span>
-        <div class="countdown-timer">
-            <div class="countdown-unit"><span class="countdown-number" id="countDays">--</span><span class="countdown-text">Días</span></div>
-            <span class="countdown-sep">:</span>
-            <div class="countdown-unit"><span class="countdown-number" id="countHours">--</span><span class="countdown-text">Horas</span></div>
-            <span class="countdown-sep">:</span>
-            <div class="countdown-unit"><span class="countdown-number" id="countMinutes">--</span><span class="countdown-text">Min</span></div>
-            <span class="countdown-sep">:</span>
-            <div class="countdown-unit"><span class="countdown-number" id="countSeconds">--</span><span class="countdown-text">Seg</span></div>
+    <div class="container nav-container">
+        <div class="nav-left">
+            <a href="index.html" class="op-back"><i data-feather="arrow-left"></i> Volver</a>
+        </div>
+        <div class="nav-center desktop-only">
+            <span class="op-brand">Blanc Sucre <span>Patissier</span></span>
+        </div>
+        <div class="nav-right">
+            <div class="nav-scarcity">
+                <span class="sc-icon"><i data-feather="alert-circle"></i></span>
+                <span class="sc-text">Cupos: <strong class="slots-count-val">--</strong>/30</span>
+            </div>
         </div>
     </div>
-</div>
+</nav>
 
 <!-- Page Header -->
 <div class="op-header">
@@ -247,7 +277,7 @@
         <span class="badge shimmer-badge">Preventa Activa &middot; Precio especial por tiempo limitado</span>
         <h1>Reserv&aacute; tu lugar</h1>
         <p>&#128205; Boulevard Eventos &middot; Carlos Bacigalupi 2159 &nbsp;|&nbsp; &#128197; Dom. 24 de Mayo &middot; 14:00 a 20:00 hs</p>
-        <span class="op-cupos"><i data-feather="alert-circle" style="width:14px;height:14px;"></i> Capacidad: 30 lugares en total. ¡Quedan solo <span id="slotsCount" style="margin: 0 4px;">--</span> disponibles!</span>
+        <span class="op-cupos"><i data-feather="alert-circle" style="width:14px;height:14px;"></i> Capacidad: 30 lugares en total. ¡Quedan solo <span class="slots-count-val" style="margin: 0 4px;">--</span> disponibles!</span>
     </div>
 </div>
 
