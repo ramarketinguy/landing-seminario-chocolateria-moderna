@@ -1,3 +1,5 @@
+import crypto from 'crypto';
+
 export default async function handler(req, res) {
     if (req.method === 'OPTIONS') {
         res.setHeader('Access-Control-Allow-Origin', '*');
@@ -44,6 +46,14 @@ export default async function handler(req, res) {
             // Inject the real client IP (Mandatory for CAPI QoS)
             if (!event.user_data.client_ip_address && clientIp) {
                 event.user_data.client_ip_address = clientIp;
+            }
+
+            // Meta requires customer information parameters like external_id to be hashed with SHA256
+            if (event.user_data.external_id) {
+                const extId = String(event.user_data.external_id).trim();
+                if (!/^[a-f0-9]{64}$/i.test(extId)) { // If not already hashed
+                    event.user_data.external_id = crypto.createHash('sha256').update(extId).digest('hex');
+                }
             }
 
             // Clean up: attribution_data is not standard at the root of a CAPI event

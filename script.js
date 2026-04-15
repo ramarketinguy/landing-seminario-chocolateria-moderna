@@ -168,6 +168,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // =============================================
+    // El Identificador Externo (getExternalId) ya está definido globalmente en index.html
+    // =============================================
+
+    // =============================================
     // Meta CAPI & Pixel Tracking
     // =============================================
     function trackEvent(eventName, eventData = {}, customData = {}, attributionData = {}) {
@@ -181,19 +185,45 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         // 2. Fire CAPI via serverless proxy
-        // Try to get fbc and fbp cookies for better CAPI matching
-        const getCookie = (name) => {
-            const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
-            return match ? match[2] : null;
+        // Try to get or set fbc and fbp cookies for better CAPI matching
+        const getOrSetFbp = () => {
+            const match = document.cookie.match(new RegExp('(^| )_fbp=([^;]+)'));
+            if (match) return match[2];
+            // Meta _fbp format: fb.subdomainIndex.creationTime.random
+            const newFbp = `fb.1.${Date.now()}.${Math.round(Math.random() * 10000000000)}`;
+            const date = new Date();
+            date.setTime(date.getTime() + (90 * 24 * 60 * 60 * 1000));
+            document.cookie = `_fbp=${newFbp};expires=${date.toUTCString()};path=/`;
+            return newFbp;
         };
+
+        const getOrSetFbc = () => {
+            const match = document.cookie.match(new RegExp('(^| )_fbc=([^;]+)'));
+            if (match) return match[2];
+
+            // Si no hay cookie fbc, intentar extraer el fbclid de la URL e inferir fbc
+            const urlParams = new URLSearchParams(window.location.search);
+            const fbclid = urlParams.get('fbclid');
+            if (fbclid) {
+                // Formato oficial: fb.subdomainIndex.creationTimeInMs.fbclid
+                const newFbc = `fb.1.${Date.now()}.${fbclid}`;
+                const date = new Date();
+                date.setTime(date.getTime() + (90 * 24 * 60 * 60 * 1000));
+                document.cookie = `_fbc=${newFbc};expires=${date.toUTCString()};path=/`;
+                return newFbc;
+            }
+            return null;
+        };
+
+        const fbp = getOrSetFbp();
+        const fbc = getOrSetFbc();
 
         const userData = {
             client_user_agent: navigator.userAgent,
+            external_id: getExternalId(), // Envía un ID único para mejorar Data Quality
             ...eventData
         };
 
-        const fbp = getCookie('_fbp');
-        const fbc = getCookie('_fbc');
         if (fbp) userData.fbp = fbp;
         if (fbc) userData.fbc = fbc;
 
@@ -241,10 +271,18 @@ document.addEventListener('DOMContentLoaded', () => {
         const btn = document.getElementById(id);
         if (btn) {
             btn.addEventListener('click', () => {
+                const value = id === 'btn-mercadopago' ? 3190 : 2900;
                 trackEvent(
                     'Purchase',
                     {},
-                    { currency: "UYU", value: 2900 }
+                    {
+                        currency: "UYU",
+                        value: value,
+                        content_ids: ['seminario_chocolateria_2026'],
+                        content_type: 'product',
+                        content_name: 'Seminario de Chocolatería Moderna',
+                        num_items: 1
+                    }
                 );
             });
         }
@@ -254,14 +292,26 @@ document.addEventListener('DOMContentLoaded', () => {
     const heroBtn = document.getElementById('hero-btn-reservar');
     if (heroBtn) {
         heroBtn.addEventListener('click', () => {
-            trackEvent('InitiateCheckout', {}, { content_name: 'Hero CTA Scroll' });
+            trackEvent('InitiateCheckout', {}, {
+                content_name: 'Hero CTA Scroll',
+                content_category: 'Reservar',
+                content_ids: ['seminario_chocolateria_2026'],
+                content_type: 'product',
+                currency: "UYU",
+                value: 2900
+            });
         });
     }
 
     // --- Track Contact on floating WhatsApp button ---
     if (floatingWa) {
         floatingWa.addEventListener('click', () => {
-            trackEvent('Contact', {}, { content_name: 'WhatsApp Flotante' });
+            trackEvent('Contact', {}, {
+                content_name: 'WhatsApp Flotante',
+                content_category: 'Soporte',
+                content_ids: ['whatsapp_consult'],
+                content_type: 'product'
+            });
         });
     }
 });

@@ -70,6 +70,16 @@
 
     <!-- Meta Pixel Code -->
     <script>
+        // Generar o recuperar Identificador Externo para Advanced Matching
+        function getExternalId() {
+            let extId = localStorage.getItem('_external_id');
+            if (!extId) {
+                extId = 'anon_' + Math.floor(Date.now() / 1000) + '_' + Math.random().toString(36).substring(2, 15);
+                localStorage.setItem('_external_id', extId);
+            }
+            return extId;
+        }
+
         !function (f, b, e, v, n, t, s) {
             if (f.fbq) return; n = f.fbq = function () {
                 n.callMethod ?
@@ -81,7 +91,8 @@
             s.parentNode.insertBefore(t, s)
         }(window, document, 'script',
             'https://connect.facebook.net/en_US/fbevents.js');
-        fbq('init', '4195775177312015');
+
+        fbq('init', '4195775177312015', { external_id: getExternalId() });
     </script>
     <noscript><img height="1" width="1" style="display:none"
             src="https://www.facebook.com/tr?id=4195775177312015&ev=PageView&noscript=1" /></noscript>
