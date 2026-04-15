@@ -11,6 +11,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="nav-scarcity.css">
 
     <!-- Meta Pixel -->
     <script>
@@ -29,48 +30,6 @@
     /* ══════════════════════════════════════════
        NAV & SCARCITY
     ══════════════════════════════════════════ */
-    .op-nav { 
-        background: rgba(15, 7, 6, 0.98); 
-        border-bottom: 1px solid var(--glass-border); 
-        padding: 0.8rem 0; 
-        position: sticky; 
-        top: 0; 
-        z-index: 200; 
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
-    }
-    .nav-container { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
-    .nav-left { flex: 1; display: flex; align-items: center; }
-    .nav-center { flex: 1; display: flex; justify-content: center; }
-    .nav-right { flex: 1; display: flex; justify-content: flex-end; }
-
-    .op-back { display: inline-flex; align-items: center; gap: .5rem; color: var(--text-muted); font-size: .9rem; transition: var(--transition); text-decoration: none; }
-    .op-back:hover { color: var(--accent-gold); }
-    .op-brand { font-family: var(--font-heading); font-size: 1.1rem; color: var(--text-muted); white-space: nowrap; }
-    .op-brand span { color: var(--accent-gold); }
-
-    .nav-scarcity {
-        display: flex;
-        align-items: center;
-        gap: 0.6rem;
-        background: rgba(200, 60, 60, 0.15);
-        border: 1px solid rgba(200, 60, 60, 0.3);
-        padding: 0.4rem 0.8rem;
-        border-radius: 50px;
-        color: #ff8a8a;
-        font-size: 0.8rem;
-        font-weight: 600;
-        transition: all 0.3s ease;
-    }
-    .nav-scarcity i { width: 14px; height: 14px; color: #ff6b6b; }
-    .slots-count-val { color: #fff; font-weight: 700; }
-
-    .desktop-only { display: flex; }
-    @media (max-width: 800px) {
-        .nav-center.desktop-only { display: none; }
-        .op-nav { padding: 0.6rem 0; }
-        .nav-scarcity { padding: 0.3rem 0.6rem; font-size: 0.75rem; }
-    }
 
     /* ══════════════════════════════════════════
        PAGE HEADER
@@ -78,7 +37,7 @@
     .op-header { text-align:center; padding:4rem 0 2.5rem; background:radial-gradient(ellipse at top,rgba(207,161,95,.1) 0%,transparent 60%); }
     .op-header h1 { font-size:3rem; margin:1.2rem 0 .8rem; background:linear-gradient(to right,#f5eedf,var(--accent-gold)); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; }
     .op-header p { color:var(--text-muted); font-size:1rem; }
-    .op-cupos { display:inline-flex; align-items:center; gap:.5rem; background:rgba(200,60,60,.12); border:1px solid rgba(200,60,60,.3); color:#e07070; font-size:.85rem; font-weight:600; padding:.4rem 1.2rem; border-radius:50px; margin-top:1rem; }
+
 
     /* ══════════════════════════════════════════
        ALFAJORES INFO SECTION
@@ -259,14 +218,13 @@
         <div class="nav-left">
             <a href="index.html" class="op-back"><i data-feather="arrow-left"></i> Volver</a>
         </div>
-        <div class="nav-center desktop-only">
-            <span class="op-brand">Blanc Sucre <span>Patissier</span></span>
+        <div class="nav-center">
+            <div class="nav-scarcity">
+                <i data-feather="users"></i> <span class="sc-label">Últimos</span> <strong class="slots-count-val">--</strong> <span class="sc-label">lugares</span>
+            </div>
         </div>
         <div class="nav-right">
-            <div class="nav-scarcity">
-                <span class="sc-icon"><i data-feather="alert-circle"></i></span>
-                <span class="sc-text">Cupos: <strong class="slots-count-val">--</strong>/30</span>
-            </div>
+            <span class="op-brand-nav desktop-only">Blanc Sucre <span>Patissier</span></span>
         </div>
     </div>
 </nav>
@@ -277,7 +235,6 @@
         <span class="badge shimmer-badge">Preventa Activa &middot; Precio especial por tiempo limitado</span>
         <h1>Reserv&aacute; tu lugar</h1>
         <p>&#128205; Boulevard Eventos &middot; Carlos Bacigalupi 2159 &nbsp;|&nbsp; &#128197; Dom. 24 de Mayo &middot; 14:00 a 20:00 hs</p>
-        <span class="op-cupos"><i data-feather="alert-circle" style="width:14px;height:14px;"></i> Capacidad: 30 lugares en total. ¡Quedan solo <span class="slots-count-val" style="margin: 0 4px;">--</span> disponibles!</span>
     </div>
 </div>
 
