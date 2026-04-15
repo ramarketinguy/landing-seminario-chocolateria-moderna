@@ -334,6 +334,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // =============================================
     // Social Proof Notifications
     // =============================================
+    // =============================================
+    // Social Proof Notifications (Optimized)
+    // =============================================
     const socialNotifications = [
         { name: "Lucía M.", action: "se acaba de inscribir" },
         { name: "Carlos R.", action: "reservó su lugar por transferencia" },
@@ -342,8 +345,34 @@ document.addEventListener('DOMContentLoaded', () => {
         { name: "Valentina S.", action: "aprovechó la oferta preventa" },
         { name: "Facundo D.", action: "reservó para 2 personas" },
         { name: "Laura B.", action: "completó su inscripción" },
-        { name: "Joaquín L.", action: "está viendo el seminario ahora" }
+        { name: "Joaquín L.", action: "compró el combo individual" },
+        { name: "Elena F.", action: "se acaba de inscribir" },
+        { name: "Nicolás T.", action: "reservó su lugar" },
+        { name: "Mariana V.", action: "se inscribió al Seminario" },
+        { name: "Gabriel S.", action: "aprovechó la oferta" },
+        { name: "Victoria P.", action: "se acaba de inscribir" },
+        { name: "Roberto M.", action: "reservó por transferencia" },
+        { name: "Silvina G.", action: "consultó disponibilidad" },
+        { name: "Agustín L.", action: "se inscribió ahora" },
+        { name: "Patricia K.", action: "completó el pago" },
+        { name: "Fernando D.", action: "aseguró su cupo" },
+        { name: "Jimena O.", action: "se inscribió al taller" },
+        { name: "Andrés B.", action: "aprovechó la preventa" },
+        { name: "Carolina W.", action: "se inscribió para el sábado" },
+        { name: "Diego N.", action: "reservó su lugar" },
+        { name: "Verónica R.", action: "se acaba de inscribir" },
+        { name: "Lucas F.", action: "compró su entrada" },
+        { name: "Belén M.", action: "reservó por WhatsApp" },
+        { name: "Gonzalo J.", action: "se inscribió al Seminario" },
+        { name: "Florencia S.", action: "aprovechó la promoción" },
+        { name: "Ignacio Q.", action: "completó su reserva" },
+        { name: "Camila H.", action: "se inscribió recién" },
+        { name: "Esteban Z.", action: "reservó su espacio" }
     ];
+
+    let sessionNotificationCount = 0;
+    const MAX_SESSION_NOTIFICATIONS = 3;
+    let shownNamesSet = new Set();
 
     function createNotificationToast() {
         const toast = document.createElement('div');
@@ -361,10 +390,21 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function showRandomNotification() {
+        if (sessionNotificationCount >= MAX_SESSION_NOTIFICATIONS) return;
+
         let toast = document.getElementById('notificationToast');
         if (!toast) toast = createNotificationToast();
 
-        const notif = socialNotifications[Math.floor(Math.random() * socialNotifications.length)];
+        // Find a name that hasn't been shown yet this session
+        let notif;
+        let attempts = 0;
+        do {
+            notif = socialNotifications[Math.floor(Math.random() * socialNotifications.length)];
+            attempts++;
+        } while (shownNamesSet.has(notif.name) && attempts < 50);
+
+        shownNamesSet.add(notif.name);
+        
         const nameEl = document.getElementById('notif-name');
         const actionEl = document.getElementById('notif-action');
         const timeEl = document.getElementById('notif-time');
@@ -376,59 +416,78 @@ document.addEventListener('DOMContentLoaded', () => {
         const minutes = Math.floor(Math.random() * 55) + 2;
         timeEl.textContent = `Hace ${minutes} minutos`;
         
-        // Random avatar color based on name
         const colors = ['CFA15F', '1B0E0D', '805D3F', '5D3A1A'];
         const randomColor = colors[Math.floor(Math.random() * colors.length)];
         imgEl.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(notif.name)}&background=${randomColor}&color=fff&bold=true`;
 
         toast.classList.add('show');
+        sessionNotificationCount++;
 
         setTimeout(() => {
             toast.classList.remove('show');
         }, 5000);
     }
 
-    // Show first notification after 10 seconds, then every 20-40 seconds
+    // Interval setup: 30s initial, then 60s
     if (socialNotifications.length > 0) {
         setTimeout(() => {
             showRandomNotification();
-            setInterval(() => {
+            const intervalId = setInterval(() => {
+                if (sessionNotificationCount >= MAX_SESSION_NOTIFICATIONS) {
+                    clearInterval(intervalId);
+                    return;
+                }
                 showRandomNotification();
-            }, Math.floor(Math.random() * (40000 - 20000 + 1)) + 20000);
-        }, 10000);
+            }, 60000);
+        }, 30000);
     }
 
     // =============================================
-    // Scarcity Counter Logic (Persistent)
+    // Scarcity Counter Logic (30 Slots & Persistence)
     // =============================================
     const slotsEl = document.getElementById('slotsCount');
     if (slotsEl) {
-        let currentSlots = parseInt(localStorage.getItem('choco_slots_remain')) || 14;
+        let currentSlots = parseInt(localStorage.getItem('choco_slots_remain'));
+        const lastVisit = parseInt(localStorage.getItem('choco_last_visit')) || 0;
+        const now = Date.now();
         
-        // Initial set
+        // If first time or data reset, start at 30
+        if (isNaN(currentSlots)) {
+            currentSlots = 30;
+        }
+
+        // Logic: if they return after more than 10 minutes, decrement 1-2 slots
+        if (lastVisit > 0 && (now - lastVisit) > 10 * 60 * 1000) {
+            const decr = Math.floor(Math.random() * 2) + 1; // 1 or 2
+            currentSlots = Math.max(3, currentSlots - decr);
+        }
+
+        // Update last visit
+        localStorage.setItem('choco_last_visit', now);
+        localStorage.setItem('choco_slots_remain', currentSlots);
+        
+        // Initial display
         slotsEl.textContent = currentSlots;
 
-        // Occasionally decrement slots to simulate sales
+        // Simulate sales while browsing (more frequent if currentSlots is high)
         function simulateSale() {
-            if (currentSlots <= 3) return; // Keep at least 3
+            if (currentSlots <= 4) return;
             
-            // Random chance to decrement (20%)
-            if (Math.random() < 0.2) {
+            // Random chance to decrement (15%)
+            if (Math.random() < 0.15) {
                 currentSlots--;
                 localStorage.setItem('choco_slots_remain', currentSlots);
                 
-                // Animate change
-                slotsEl.style.transform = 'scale(1.4)';
-                slotsEl.style.color = '#fff';
+                // Animate
+                slotsEl.classList.add('pulse-text');
                 setTimeout(() => {
                     slotsEl.textContent = currentSlots;
-                    slotsEl.style.transform = 'scale(1)';
-                    slotsEl.style.color = '';
+                    setTimeout(() => slotsEl.classList.remove('pulse-text'), 300);
                 }, 300);
             }
         }
 
-        // Check for "sale" every 1-3 minutes
-        setInterval(simulateSale, Math.floor(Math.random() * (180000 - 60000 + 1)) + 60000);
+        // Check for sale periodically while on page (every 45-90s)
+        setInterval(simulateSale, Math.floor(Math.random() * (90000 - 45000 + 1)) + 45000);
     }
 });
