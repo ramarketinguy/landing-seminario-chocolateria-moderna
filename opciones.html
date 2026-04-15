@@ -115,7 +115,7 @@
     .ps-item.ps-active .ps-name { color:#fff; }
     .ps-prices { font-size:.78rem; color:rgba(255,255,255,.35); line-height:1.6; }
     .ps-item.ps-active .ps-prices { color:var(--text-muted); }
-    .ps-active-tag { display:inline-block; font-size:.65rem; color:#10b981; background:rgba(16,185,129,.1); border:1px solid rgba(16,185,129,.2); padding:.15rem .6rem; border-radius:50px; margin-top:.4rem; }
+    .ps-active-tag { display:inline-block; font-size:.65rem; color:#10b981; background:rgba(16,185,129,.1); border:1px solid rgba(16,185,129,.2); padding:.15rem .6rem; border-radius:50px; margin-top:.4rem; text-transform:uppercase; }
     .ps-locked { font-size:.65rem; color:rgba(255,255,255,.2); margin-top:.4rem; }
 
     /* ══════════════════════════════════════════
@@ -160,7 +160,7 @@
     .pay-opt-header { display:flex; align-items:center; gap:.8rem; margin-bottom:.8rem; }
     .pay-opt-icon { width:36px; height:36px; border-radius:10px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
     .pay-opt-icon.mp { background:rgba(0,158,227,.15); color:#009ee3; }
-    .pay-opt-icon.cash { background:rgba(207,161,95,.12); color:var(--accent-gold); }
+    .pay-opt-icon cash { background:rgba(207,161,95,.12); color:var(--accent-gold); }
     .pay-opt-icon svg { width:18px; height:18px; }
     .pay-opt-title { font-family:var(--font-heading); font-size:1.1rem; color:#fff; }
     .pay-opt-desc { font-size:.88rem; color:var(--text-muted); line-height:1.5; margin-bottom:1rem; }
@@ -220,7 +220,8 @@
         </div>
         <div class="nav-center">
             <div class="nav-scarcity">
-                <i data-feather="users"></i> <span class="sc-label">Últimos</span> <strong class="slots-count-val">--</strong> <span class="sc-label">lugares</span>
+                <span class="sc-dot"></span>
+                <span class="sc-text">Quedan <strong class="slots-count-val">--</strong> cupos</span>
             </div>
         </div>
         <div class="nav-right">
@@ -415,7 +416,7 @@
                 <label>&#191;C&oacute;mo prefer&iacute;s tu certificado?</label>
                 <div class="cert-options">
                     <label class="cert-label">
-                        <input type="radio" name="cert" value="Físico (en el taller)" checked> F&iacute;sico (en el taller)
+                        <input type="radio" name="cert" value="Fisico (en el taller)" checked> F&iacute;sico (en el taller)
                     </label>
                     <label class="cert-label">
                         <input type="radio" name="cert" value="Digital (por email)"> Digital (por email)
@@ -504,7 +505,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     if (typeof feather !== 'undefined') feather.replace();
 
-    // ── Configuración de productos ───────────────────────────────
+    // ── Configuracion de productos ───────────────────────────────
     const PRODUCTS = {
         combo: {
             badge:        'Pack Combo &middot; Alfajores + Chocolater&iacute;a',
@@ -577,7 +578,7 @@ document.addEventListener('DOMContentLoaded', () => {
     overlay.addEventListener('click', (e) => { if (e.target === overlay) closeModal(); });
     document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
 
-    // ── Botones de selección ─────────────────────────────────────
+    // ── Botones de seleccion ─────────────────────────────────────
     document.getElementById('btn-quiero-combo').addEventListener('click', () => openModal('combo'));
     document.getElementById('btn-solo-taller').addEventListener('click', () => openModal('individual'));
 
