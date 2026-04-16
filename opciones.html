@@ -381,11 +381,6 @@
         <div class="modal-header">
             <div class="modal-badge" id="modalBadge"></div>
             <h2 id="modalTitle"></h2>
-            <div class="modal-price-display">
-                <span class="currency">$</span>
-                <span class="amount" id="modalPriceMain"></span>
-            </div>
-            <p class="modal-price-sub" id="modalPriceSub"></p>
             <div class="modal-includes">
                 <span class="modal-include-tag">&#128216; Recetario incluido</span>
                 <span class="modal-include-tag">&#9749; Degustaci&oacute;n incluida</span>
@@ -442,30 +437,52 @@
                 </a>
             </div>
 
-            <!-- Transferencia -->
+            <!-- Pago Contado / Transferencia -->
             <div class="pay-opt pay-transfer">
                 <div class="pay-opt-header">
                     <div class="pay-opt-icon cash"><i data-feather="dollar-sign"></i></div>
-                    <span class="pay-opt-title">Transferencia bancaria</span>
+                    <span class="pay-opt-title">&#127381; PAGO CONTADO</span>
                 </div>
-                <p class="pay-opt-desc">Beneficio 10% OFF: Pagando con transferencia o en efectivo obten&eacute;s el mejor precio.</p>
+                <p class="pay-opt-desc" style="font-size:.95rem;line-height:1.7;">
+                    Por pagar al contado ten&eacute;s un <strong style="color:#fff;">beneficio de 10% de descuento</strong> — ¡es el mejor precio disponible!<br><br>
+                    El pago se realiza mediante <strong style="color:#fff;">transferencia bancaria</strong> a una <strong style="color:#fff;">cuenta Prex</strong>. Los datos est&aacute;n a continuaci&oacute;n.
+                </p>
                 <div class="pay-opt-price" id="modal-transfer-price"></div>
-                <div class="bank-data">
-                    <div class="bank-row"><span>Titular</span><span>Flavia Pereira</span></div>
-                    <div class="bank-row"><span>Cuenta Prex</span><span>158186</span></div>
+
+                <!-- Datos bancarios bien visibles -->
+                <div class="bank-data" style="margin-bottom:1.2rem;">
+                    <div class="bank-row" style="padding:.9rem 1.2rem;">
+                        <span style="font-size:.9rem;font-weight:600;color:#ccc;">Titular de la cuenta</span>
+                        <span style="font-size:1.1rem;font-weight:700;">Flavia Pereira</span>
+                    </div>
+                    <div class="bank-row" style="padding:.9rem 1.2rem;">
+                        <span style="font-size:.9rem;font-weight:600;color:#ccc;">N&uacute;mero de cuenta Prex</span>
+                        <span style="font-size:1.2rem;font-weight:700;letter-spacing:2px;color:var(--accent-gold);">158186</span>
+                    </div>
                 </div>
-                <div class="how-it-works">
-                    <p>&#191;C&oacute;mo funciona?</p>
-                    <ol>
-                        <li>Realiz&aacute; la transferencia a los datos de arriba.</li>
-                        <li>Sacate una <strong>captura de pantalla</strong> al comprobante.</li>
-                        <li>Presion&aacute; el bot&oacute;n de abajo y envianos la captura por WhatsApp.</li>
+
+                <div class="how-it-works" style="margin-bottom:1.2rem;">
+                    <p style="font-size:.8rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text-muted);margin-bottom:.8rem;">&#128073; C&oacute;mo hacer la transferencia paso a paso</p>
+                    <ol style="padding-left:1.4rem;display:flex;flex-direction:column;gap:.8rem;">
+                        <li style="font-size:.95rem;color:var(--text-muted);line-height:1.6;">
+                            Abr&iacute; tu aplicaci&oacute;n bancaria o Prex y realiz&aacute; una transferencia al <strong style="color:#fff;">n&uacute;mero de cuenta 158186</strong> a nombre de <strong style="color:#fff;">Flavia Pereira</strong>.
+                        </li>
+                        <li style="font-size:.95rem;color:var(--text-muted);line-height:1.6;">
+                            Una vez realizada la transferencia, sac&aacute;te una <strong style="color:#fff;">captura de pantalla</strong> (screenshot) del comprobante de pago.
+                        </li>
+                        <li style="font-size:.95rem;color:var(--text-muted);line-height:1.6;">
+                            Presion&aacute; el bot&oacute;n verde de abajo. Te va a abrir WhatsApp y ah&iacute; pod&eacute;s adjuntar la imagen del comprobante. &#9997;&#65039;
+                        </li>
+                        <li style="font-size:.95rem;color:var(--text-muted);line-height:1.6;">
+                            ¡Listo! Tu lugar queda <strong style="color:#fff;">confirmado</strong> cuando nosotros te avisamos por WhatsApp.
+                        </li>
                     </ol>
                 </div>
-                <a id="btn-modal-wa" href="#" target="_blank" rel="noopener noreferrer" class="btn-enviar">
-                    &#128241; ENVIAR COMPROBANTE
+
+                <a id="btn-modal-wa" href="#" target="_blank" rel="noopener noreferrer" class="btn-enviar" style="font-size:.95rem;padding:1.2rem;gap:.8rem;">
+                    &#128241; ENVIAR COMPROBANTE POR WHATSAPP
                 </a>
-                <p class="btn-enviar-note">Se te redirigir&aacute; a WhatsApp para adjuntar el comprobante.</p>
+                <p class="btn-enviar-note" style="font-size:.85rem;margin-top:.8rem;color:rgba(255,255,255,.4);">Al tocar el bot&oacute;n se abre WhatsApp autom&aacute;ticamente. Pod&eacute;s adjuntar la foto del comprobante directamente desde ah&iacute;.</p>
             </div>
 
         </div>
@@ -550,8 +567,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         document.getElementById('modalBadge').innerHTML       = p.badge;
         document.getElementById('modalTitle').innerHTML       = p.title;
-        document.getElementById('modalPriceMain').textContent = p.priceMain;
-        document.getElementById('modalPriceSub').innerHTML    = p.priceSub;
         document.getElementById('modal-tarjeta-price').innerHTML = `<span style="font-family:var(--font-heading);font-size:2.2rem;font-weight:700;color:var(--accent-gold);">${p.precioTarjeta.split(' ')[0]}</span> <span style="font-size:.85rem;color:var(--text-muted);">con tarjeta</span>`;
         document.getElementById('modal-transfer-price').innerHTML = `<span style="font-family:var(--font-heading);font-size:2.2rem;font-weight:700;color:var(--accent-gold);">${p.precioContado.split(' ')[0]}</span> <span style="font-size:.85rem;color:var(--text-muted);">precio contado</span>`;
         document.getElementById('btn-modal-mp').href = p.mpLink;
