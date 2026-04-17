@@ -1088,12 +1088,20 @@ img {
 
     .info-bar {
         grid-template-columns: 1fr;
+        width: 100%;
         max-width: 400px;
         margin: 0 auto 50px;
+        padding: 1.5rem;
+    }
+
+    .section-title {
+        font-size: 2.2rem;
+        text-align: center;
     }
 
     .hero-title {
         font-size: 3rem;
+        text-align: center;
     }
 
     .footer-content {
