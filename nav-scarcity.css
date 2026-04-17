@@ -75,7 +75,7 @@
 }
 
 @media (max-width: 800px) {
-    .nav-scarcity { padding: 0.4rem 1rem; }
+    .nav-scarcity { padding: 0.4rem 0.8rem; }
     .sc-text { font-size: 0.75rem; }
     .slots-count-val { font-size: 0.95rem; }
     .op-brand-nav { font-size: 0.8rem; }
@@ -84,9 +84,9 @@
 /* Fix for small phones to prevent overlap seen in screenshot */
 @media (max-width: 600px) {
     .op-brand-nav { display: none; }
-    .nav-left { flex: 0; }
-    .nav-center { flex: 1; display: flex; justify-content: center; }
-    .nav-right { flex: 0; }
+    .nav-left { flex: 0 0 auto; }
+    .nav-center { flex: 1; display: flex; justify-content: center; min-width: 0; }
+    .nav-right { flex: 0 0 auto; }
     
     .nav-scarcity { 
         padding: 0.35rem 0.8rem; 
@@ -94,11 +94,48 @@
     }
 }
 
-@media (max-width: 400px) {
-    .nav-scarcity { padding: 0.3rem 0.6rem; }
-    .sc-text { font-size: 0.72rem; }
+@media (max-width: 480px) {
+    .nav-container {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+    .nav-scarcity { 
+        padding: 0.3rem 0.6rem; 
+    }
+    .sc-text { 
+        font-size: 0 !important; /* Hide "Quedan" and "cupos" text nodes */
+    }
+    .slots-count-val { 
+        font-size: 0.9rem !important; 
+        display: inline-block;
+    }
+    .slots-count-val::after {
+        content: " cupos";
+        font-size: 0.75rem;
+        color: #fff;
+        margin-left: 4px;
+        font-weight: 600;
+        text-transform: uppercase;
+    }
     .nav-btn-cta { 
-        padding: 0.4rem 0.7rem !important; 
-        font-size: 0.72rem !important; 
+        padding: 0.4rem 0.6rem !important; 
+        font-size: 0.7rem !important;
+        letter-spacing: 0;
+    }
+    .op-back {
+        padding: 0.5rem 0.2rem;
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 350px) {
+    .nav-scarcity {
+        gap: 2px;
+    }
+    .sc-dot {
+        display: none;
+    }
+    .nav-btn-cta {
+        padding: 0.35rem 0.5rem !important;
     }
 }
