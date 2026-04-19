@@ -266,15 +266,17 @@ document.addEventListener('DOMContentLoaded', () => {
         }).catch(err => console.error('Meta CAPI tracking error:', err));
     }
 
-    // --- Track PageView + ViewContent via CAPI (Pixel already fires in <head>) ---
-    trackEvent('PageView');
-    trackEvent('ViewContent', {}, {
-        content_name: 'Seminario de Chocolatería Moderna',
-        content_ids: ['seminario_chocolateria_2026'],
-        content_type: 'product',
-        currency: 'UYU',
-        value: 2900
-    });
+    // Solo en index — opciones.html tiene su propio trackOpc()
+    if (!window.location.pathname.includes('opciones')) {
+        trackEvent('PageView');
+        trackEvent('ViewContent', {}, {
+            content_name: 'Seminario de Chocolatería Moderna',
+            content_ids: ['seminario_chocolateria_2026'],
+            content_type: 'product',
+            currency: 'UYU',
+            value: 2900
+        });
+    }
 
     // --- Track Purchase sólo en los botones de "Reservar" (MercadoPago y Transferencia) ---
     const btnsReservar = ['btn-reservar', 'btn-mercadopago'];
