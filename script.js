@@ -437,9 +437,12 @@ document.addEventListener('DOMContentLoaded', () => {
         sessionNotificationCount++;
         
         // Decrement slots when a notification appears (simulating a sale/inquiry)
+        // Decrement slots removed as we use 'cupos limitados' now
+        /*
         if (typeof decrementSlots === 'function') {
             decrementSlots();
         }
+        */
 
         setTimeout(() => {
             toast.classList.remove('show');
@@ -460,54 +463,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 30000);
     }
 
-    // =============================================
-    // Scarcity Counter Logic (30 Slots & Persistence)
-    // =============================================
+    // Scarcity Counter Logic removed as we now use static 'Cupos limitados'
+    /*
     const scarcityElements = document.querySelectorAll('.slots-count-val');
-    if (scarcityElements.length > 0) {
-        let currentSlots = parseInt(localStorage.getItem('choco_slots_remain'));
-        const lastVisit = parseInt(localStorage.getItem('choco_last_visit')) || 0;
-        const now = Date.now();
-        
-        // If first time or data reset, start between 18 and 24
-        if (isNaN(currentSlots) || currentSlots >= 30) {
-            currentSlots = Math.floor(Math.random() * (24 - 18 + 1)) + 18;
-        }
-
-        // Logic: if they return after more than 10 minutes, decrement 1-2 slots
-        if (lastVisit > 0 && (now - lastVisit) > 10 * 60 * 1000) {
-            const decr = Math.floor(Math.random() * 2) + 1; // 1 or 2
-            currentSlots = Math.max(3, currentSlots - decr);
-        }
-
-        // Update last visit
-        localStorage.setItem('choco_last_visit', now);
-        localStorage.setItem('choco_slots_remain', currentSlots);
-        
-        // Initial display
-        scarcityElements.forEach(el => el.textContent = currentSlots);
-
-        // Function to decrement slots (exported for notifications)
-        window.decrementSlots = function() {
-            if (currentSlots <= 3) return;
-            currentSlots--;
-            localStorage.setItem('choco_slots_remain', currentSlots);
-            
-            // Update all instances
-            scarcityElements.forEach(el => {
-                el.classList.add('pulse-text');
-                el.textContent = currentSlots;
-                setTimeout(() => el.classList.remove('pulse-text'), 600);
-            });
-        };
-
-        // Simulate sales while browsing (more frequent if currentSlots is high)
-        function simulateSale() {
-            if (currentSlots <= 4) return;
-            if (Math.random() < 0.10) {
-                window.decrementSlots();
-            }
-        }
-        setInterval(simulateSale, Math.floor(Math.random() * (90000 - 45000 + 1)) + 45000);
-    }
+    ...
+    */
 });
