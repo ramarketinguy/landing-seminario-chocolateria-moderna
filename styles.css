@@ -1645,4 +1645,75 @@ img {
     0% { transform: scale(1); }
     50% { transform: scale(1.4); color: #ff6b6b; }
     100% { transform: scale(1); }
+}
+
+/* ══════════════════════════════════════════
+   MODAL (Migrado de opciones.html)
+══════════════════════════════════════════ */
+.modal-overlay { position:fixed; inset:0; background:rgba(0,0,0,.75); backdrop-filter:blur(4px); -webkit-backdrop-filter:blur(4px); z-index:1000; display:flex; align-items:flex-start; justify-content:center; padding:2rem 1rem; overflow-y:auto; opacity:0; visibility:hidden; transition:opacity .3s ease,visibility .3s ease; }
+.modal-overlay.open { opacity:1; visibility:visible; }
+.modal-box { background:#1e1008; border:1px solid rgba(207,161,95,.25); border-radius:20px; width:100%; max-width:520px; position:relative; overflow:hidden; transform:translateY(20px); transition:transform .3s cubic-bezier(.16,1,.3,1); }
+.modal-overlay.open .modal-box { transform:translateY(0); }
+.modal-close { position:absolute; top:1rem; right:1rem; width:36px; height:36px; background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.12); border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; color:var(--text-muted); font-size:1.2rem; z-index:10; transition:var(--transition); line-height:1; }
+.modal-close:hover { background:rgba(255,255,255,.15); color:#fff; }
+
+/* Modal header */
+.modal-header { padding:2.5rem 2rem 1.5rem; text-align:center; background:linear-gradient(to bottom,rgba(207,161,95,.08),transparent); border-bottom:1px solid rgba(255,255,255,.07); }
+.modal-badge { display:inline-block; font-size:.7rem; font-weight:700; text-transform:uppercase; letter-spacing:2px; color:var(--accent-gold); background:rgba(207,161,95,.1); border:1px solid rgba(207,161,95,.25); padding:.35rem 1rem; border-radius:50px; margin-bottom:1rem; }
+.modal-header h2 { font-family:var(--font-heading); font-size:1.8rem; color:#fff; margin-bottom:.8rem; }
+.modal-price-display { display:flex; align-items:baseline; gap:.3rem; justify-content:center; margin-bottom:.3rem; }
+.modal-price-display .currency { font-size:1.8rem; font-weight:700; color:var(--accent-gold); }
+.modal-price-display .amount { font-family:var(--font-heading); font-size:4rem; font-weight:700; color:var(--accent-gold); line-height:1; }
+.modal-price-sub { font-size:.9rem; color:var(--text-muted); margin-bottom:1.2rem; }
+.modal-includes { display:flex; gap:.8rem; justify-content:center; flex-wrap:wrap; }
+.modal-include-tag { display:inline-flex; align-items:center; gap:.4rem; font-size:.8rem; color:var(--text-muted); background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.1); padding:.35rem .9rem; border-radius:50px; }
+
+/* Modal form */
+.modal-form { padding:1.5rem 2rem; border-bottom:1px solid rgba(255,255,255,.07); }
+.form-section-title { font-size:.72rem; font-weight:700; text-transform:uppercase; letter-spacing:2px; color:var(--text-muted); margin-bottom:1.2rem; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: .8rem; width: 100%; box-sizing: border-box; }
+.form-group { display: flex; flex-direction: column; gap: .4rem; margin-bottom: .8rem; width: 100%; }
+.form-group label { font-size:.72rem; font-weight:600; text-transform:uppercase; letter-spacing:1.5px; color:var(--text-muted); }
+.form-group input { background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.12); border-radius:10px; padding:.8rem 1rem; color:#fff; font-family:var(--font-body); font-size:.95rem; transition:border-color .2s ease; outline:none; width: 100%; box-sizing: border-box; }
+.form-group input::placeholder { color:rgba(255,255,255,.25); }
+.form-group input:focus { border-color:rgba(207,161,95,.5); background:rgba(255,255,255,.08); }
+.cert-options { display:flex; gap:1rem; flex-wrap:wrap; }
+.cert-label { display:flex; align-items:center; gap:.6rem; cursor:pointer; padding:.7rem 1.1rem; border-radius:10px; border:1px solid rgba(255,255,255,.1); transition:var(--transition); font-size:.9rem; color:var(--text-muted); }
+.cert-label input[type=radio] { accent-color:var(--accent-gold); width:16px; height:16px; }
+.cert-label:has(input:checked) { border-color:rgba(207,161,95,.5); background:rgba(207,161,95,.07); color:#fff; }
+
+/* Modal payment */
+.modal-payment { padding:1.5rem 2rem 2rem; display:flex; flex-direction:column; gap:1.2rem; }
+.pay-opt { background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.09); border-radius:14px; padding:1.5rem; }
+.pay-opt.pay-transfer { border-color:rgba(207,161,95,.25); background:rgba(207,161,95,.04); }
+.pay-opt-header { display:flex; align-items:center; gap:.8rem; margin-bottom:.8rem; }
+.pay-opt-icon { width:36px; height:36px; border-radius:10px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+.pay-opt-icon.mp { background:rgba(0,158,227,.15); color:#009ee3; }
+.pay-opt-icon.cash { background:rgba(207,161,95,.12); color:var(--accent-gold); }
+.pay-opt-icon svg { width:18px; height:18px; }
+.pay-opt-title { font-family:var(--font-heading); font-size:1.1rem; color:#fff; }
+.pay-opt-desc { font-size:.88rem; color:var(--text-muted); line-height:1.5; margin-bottom:1rem; }
+.pay-opt-price { font-family:var(--font-heading); font-size:2.2rem; font-weight:700; color:var(--accent-gold); margin-bottom:1rem; line-height:1; }
+.pay-opt-price span { font-size:.85rem; font-family:var(--font-body); font-weight:400; color:var(--text-muted); }
+
+/* Bank data */
+.bank-data { background:rgba(255,255,255,.05); border-radius:10px; overflow:hidden; margin-bottom:1rem; }
+.bank-row { display:flex; justify-content:space-between; padding:.7rem 1rem; font-size:.9rem; border-bottom:1px solid rgba(255,255,255,.05); }
+.bank-row:last-child { border-bottom:none; }
+.bank-row span:first-child { color:var(--text-muted); }
+.bank-row span:last-child { color:#fff; font-weight:600; }
+.how-it-works { background:rgba(255,255,255,.04); border-radius:10px; padding:1rem 1.2rem; margin-bottom:1rem; }
+.how-it-works p { font-size:.78rem; font-weight:700; text-transform:uppercase; letter-spacing:1px; color:var(--text-muted); margin-bottom:.6rem; }
+.how-it-works ol { padding-left:1.2rem; display:flex; flex-direction:column; gap:.4rem; }
+.how-it-works ol li { font-size:.88rem; color:var(--text-muted); line-height:1.4; }
+.how-it-works ol li strong { color:#fff; }
+.btn-enviar { display:flex; align-items:center; justify-content:center; gap:.6rem; width:100%; padding:1rem; border-radius:50px; background:#25d366; color:#fff; font-size:.95rem; font-weight:700; text-transform:uppercase; letter-spacing:1px; border:none; cursor:pointer; transition:var(--transition); text-decoration:none; }
+.btn-enviar:hover { background:#1da851; color:#fff; transform:translateY(-2px); }
+.btn-enviar-note { text-align:center; font-size:.78rem; color:rgba(255,255,255,.3); margin-top:.5rem; }
+.btn-mp-modal { display:flex; align-items:center; justify-content:center; gap:.6rem; width:100%; padding:1rem; border-radius:50px; background:#009ee3; color:#fff; font-size:.95rem; font-weight:700; text-transform:uppercase; letter-spacing:1px; border:none; cursor:pointer; transition:var(--transition); text-decoration:none; }
+.btn-mp-modal:hover { background:#007bbd; color:#fff; transform:translateY(-2px); }
+
+@media (max-width:500px) {
+    .modal-header, .modal-form, .modal-payment { padding-left:1.2rem; padding-right:1.2rem; }
+    .form-row { grid-template-columns:1fr; }
 }

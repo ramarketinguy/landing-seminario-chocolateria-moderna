@@ -266,55 +266,96 @@ document.addEventListener('DOMContentLoaded', () => {
         }).catch(err => console.error('Meta CAPI tracking error:', err));
     }
 
-    // Solo en index — opciones.html tiene su propio trackOpc()
-    if (!window.location.pathname.includes('opciones')) {
-        trackEvent('PageView');
-        trackEvent('ViewContent', {}, {
-            content_name: 'Seminario de Chocolatería Moderna',
-            content_ids: ['seminario_chocolateria_2026'],
-            content_type: 'product',
-            currency: 'UYU',
-            value: 2900
-        });
-    }
-
-    // --- Track Purchase sólo en los botones de "Reservar" (MercadoPago y Transferencia) ---
-    const btnsReservar = ['btn-reservar', 'btn-mercadopago'];
-    btnsReservar.forEach(id => {
-        const btn = document.getElementById(id);
-        if (btn) {
-            btn.addEventListener('click', () => {
-                const value = id === 'btn-mercadopago' ? 3190 : 2900;
-                trackEvent(
-                    'Purchase',
-                    {},
-                    {
-                        currency: "UYU",
-                        value: value,
-                        content_ids: ['seminario_chocolateria_2026'],
-                        content_type: 'product',
-                        content_name: 'Seminario de Chocolatería Moderna',
-                        num_items: 1
-                    }
-                );
-            });
-        }
+    // --- Eventos Básicos ---
+    trackEvent('PageView');
+    trackEvent('ViewContent', {}, {
+        content_name: 'Seminario de Chocolatería Moderna',
+        content_ids: ['seminario_chocolateria_2026'],
+        content_type: 'product',
+        currency: 'UYU',
+        value: 2900
     });
 
-    // --- Track InitiateCheckout en el botón del Hero (solo hace scroll, no es compra todavía) ---
-    const heroBtn = document.getElementById('hero-btn-reservar');
-    if (heroBtn) {
-        heroBtn.addEventListener('click', () => {
-            trackEvent('InitiateCheckout', {}, {
-                content_name: 'Hero CTA Scroll',
-                content_category: 'Reservar',
-                content_ids: ['seminario_chocolateria_2026'],
-                content_type: 'product',
-                currency: "UYU",
-                value: 2900
-            });
+    // ── Lógica del Modal ────────────────────────────────────────
+    const overlay   = document.getElementById('modalOverlay');
+    const btnClose  = document.getElementById('modalClose');
+
+    function openModal() {
+        updateWaLink();
+        if(overlay) overlay.classList.add('open');
+        document.body.style.overflow = 'hidden';
+
+        trackEvent('InitiateCheckout', {}, {
+            content_name: 'Seminario Seleccionado',
+            currency: 'UYU', value: 2900,
+            content_ids: ['seminario_chocolateria_2026'], content_type: 'product'
         });
     }
+
+    function closeModal() {
+        if(overlay) overlay.classList.remove('open');
+        document.body.style.overflow = '';
+    }
+
+    if(btnClose) btnClose.addEventListener('click', closeModal);
+    if(overlay) overlay.addEventListener('click', (e) => { if (e.target === overlay) closeModal(); });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
+
+    document.querySelectorAll('.btn-open-modal').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            openModal();
+        });
+    });
+
+    // ── WhatsApp con datos del formulario ────────────────────────
+    function getFormData() {
+        return {
+            nombre:   (document.getElementById('f-nombre')?.value   || '').trim(),
+            apellido: (document.getElementById('f-apellido')?.value  || '').trim(),
+            email:    (document.getElementById('f-email')?.value     || '').trim(),
+            tel:      (document.getElementById('f-tel')?.value       || '').trim(),
+            cert:     document.querySelector('input[name="cert"]:checked')?.value || 'No indicado'
+        };
+    }
+
+    function updateWaLink() {
+        const fd = getFormData();
+        const msg = `Hola! Quiero enviar mi comprobante de transferencia para el Seminario de Chocolatería ($2.900 contado).
+
+Mis datos:
+• Nombre: ${fd.nombre} ${fd.apellido}
+• Email: ${fd.email || '(no indicado)'}
+• Tel/WhatsApp: ${fd.tel || '(no indicado)'}
+• Certificado: ${fd.cert}
+
+Adjunto el comprobante a continuación.`;
+        const waBtn = document.getElementById('btn-modal-wa');
+        if(waBtn) waBtn.href = 'https://wa.me/59898058264?text=' + encodeURIComponent(msg);
+    }
+
+    ['f-nombre','f-apellido','f-email','f-tel'].forEach(id => {
+        const el = document.getElementById(id);
+        if(el) el.addEventListener('input', updateWaLink);
+    });
+    document.querySelectorAll('input[name="cert"]').forEach(r => {
+        r.addEventListener('change', updateWaLink);
+    });
+
+    // ── Purchase tracking ────────────────────────────────────────
+    const btnMp = document.getElementById('btn-modal-mp');
+    if(btnMp) btnMp.addEventListener('click', () => {
+        trackEvent('Purchase', {}, { currency:'UYU', value: 3200,
+            content_name: 'Seminario de Chocolatería — Tarjeta',
+            content_ids: ['seminario_chocolateria_2026'], content_type:'product', num_items: 1 });
+    });
+
+    const btnWa = document.getElementById('btn-modal-wa');
+    if(btnWa) btnWa.addEventListener('click', () => {
+        trackEvent('Purchase', {}, { currency:'UYU', value: 2900,
+            content_name: 'Seminario de Chocolatería — Contado',
+            content_ids: ['seminario_chocolateria_2026'], content_type:'product', num_items: 1 });
+    });
 
     // --- Track Contact on floating WhatsApp button ---
     if (floatingWa) {

@@ -128,7 +128,7 @@
                 </div>
             </div>
             <div class="nav-right">
-                <a href="opciones.html" class="btn btn-primary nav-btn-cta">Inscribirme</a>
+                <a href="#" class="btn btn-primary nav-btn-cta btn-open-modal">Inscribirme</a>
             </div>
         </div>
     </nav>
@@ -155,7 +155,7 @@
                 lográ un brillo impecable. Una experiencia demostrativa única junto a <strong>Blanc Sucre
                     Patissier</strong>.</p>
             <div class="hero-cta">
-                <a href="opciones.html" id="hero-btn-reservar" class="btn btn-primary pulse-glow">Reservar mi lugar <i
+                <a href="#" id="hero-btn-reservar" class="btn btn-primary pulse-glow btn-open-modal">Reservar mi lugar <i
                         data-feather="arrow-right"></i></a>
             </div>
         </div>
@@ -248,7 +248,7 @@
                     <h3>Técnicas modernas para lograr un brillo impecable <em>sin templar</em></h3>
                     <p>En este seminario vas a aprender métodos contemporáneos que te permiten trabajar el chocolate con confianza y crear bombones de nivel profesional desde la primera vez.</p>
                 </div>
-                <a href="opciones.html" class="btn btn-primary btn-large pulse-glow">Quiero aprender esto <i data-feather="arrow-right"></i></a>
+                <a href="#" class="btn btn-primary btn-large pulse-glow btn-open-modal">Quiero aprender esto <i data-feather="arrow-right"></i></a>
             </div>
         </div>
     </section>
@@ -511,7 +511,7 @@
                 <span class="badge shimmer-badge">Cupos muy limitados</span>
                 <h2 class="section-title" style="text-align: center; margin-top: 1.5rem;">¿Lista para dominar el <span>Chocolate?</span></h2>
                 <p class="section-desc" style="max-width: 500px; margin: 0 auto 2.5rem;">Asegurá tu lugar antes de que se agoten los cupos. Una experiencia que no vas a olvidar.</p>
-                <a href="opciones.html" class="btn btn-primary btn-large pulse-glow">Reservar mi lugar <i data-feather="arrow-right"></i></a>
+                <a href="#" class="btn btn-primary btn-large pulse-glow btn-open-modal">Reservar mi lugar <i data-feather="arrow-right"></i></a>
             </div>
         </div>
     </section>
@@ -619,6 +619,117 @@
             </div>
         </div>
     </footer>
+
+    <!-- ══════════════════════════════════════════
+         MODAL DE PAGO
+    ══════════════════════════════════════════ -->
+    <div class="modal-overlay" id="modalOverlay" role="dialog" aria-modal="true">
+        <div class="modal-box">
+            <button class="modal-close" id="modalClose" aria-label="Cerrar">&times;</button>
+
+            <div class="modal-header">
+                <div class="modal-badge">Seminario de Chocolatería</div>
+                <h2 id="modalTitle">Asegurá tu lugar en el Seminario</h2>
+                <div class="modal-includes">
+                    <span class="modal-include-tag">&#128216; Recetario incluido</span>
+                    <span class="modal-include-tag">&#9749; Degustaci&oacute;n incluida</span>
+                </div>
+            </div>
+
+            <div class="modal-form">
+                <p class="form-section-title">Complet&aacute; tus datos</p>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="f-nombre">Nombre</label>
+                        <input type="text" id="f-nombre" placeholder="Tu nombre" autocomplete="given-name">
+                    </div>
+                    <div class="form-group">
+                        <label for="f-apellido">Apellido</label>
+                        <input type="text" id="f-apellido" placeholder="Tu apellido" autocomplete="family-name">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="f-email">Correo electr&oacute;nico</label>
+                    <input type="email" id="f-email" placeholder="tu@email.com" autocomplete="email">
+                </div>
+                <div class="form-group">
+                    <label for="f-tel">Tel&eacute;fono / WhatsApp</label>
+                    <input type="tel" id="f-tel" placeholder="+598 9X XXX XXXX" autocomplete="tel">
+                </div>
+                <div class="form-group">
+                    <label>&#191;C&oacute;mo prefer&iacute;s tu certificado?</label>
+                    <div class="cert-options">
+                        <label class="cert-label">
+                            <input type="radio" name="cert" value="Fisico (en el taller)" checked> F&iacute;sico (en el taller)
+                        </label>
+                        <label class="cert-label">
+                            <input type="radio" name="cert" value="Digital (por email)"> Digital (por email)
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-payment">
+                <div class="pay-opt">
+                    <div class="pay-opt-header">
+                        <div class="pay-opt-icon mp"><i data-feather="credit-card"></i></div>
+                        <span class="pay-opt-title">Pago con Tarjeta</span>
+                    </div>
+                    <p class="pay-opt-desc">Abon&aacute; el costo total y financialo hasta en 12 cuotas con tarjetas de cr&eacute;dito.</p>
+                    <div class="pay-opt-price" id="modal-tarjeta-price">
+                        <span style="font-family:var(--font-heading);font-size:2.2rem;font-weight:700;color:var(--accent-gold);">$3.200</span> <span style="font-size:.85rem;color:var(--text-muted);">con tarjeta</span>
+                    </div>
+                    <a id="btn-modal-mp" href="https://mpago.la/1meymri" target="_blank" rel="noopener noreferrer" class="btn-mp-modal">
+                        <i data-feather="credit-card" style="width:18px;height:18px;"></i> PAGO CON TARJETA
+                    </a>
+                </div>
+
+                <div class="pay-opt pay-transfer">
+                    <div class="pay-opt-header">
+                        <div class="pay-opt-icon cash"><i data-feather="dollar-sign"></i></div>
+                        <span class="pay-opt-title">&#127381; PAGO CONTADO</span>
+                    </div>
+                    <p class="pay-opt-desc" style="font-size:.95rem;line-height:1.7;">
+                        Por pagar al contado ten&eacute;s un <strong style="color:#fff;">descuento especial</strong> — ¡es el mejor precio disponible!<br><br>
+                        El pago se realiza mediante <strong style="color:#fff;">transferencia bancaria</strong> a una <strong style="color:#fff;">cuenta Prex</strong>.
+                    </p>
+                    <div class="pay-opt-price" id="modal-transfer-price">
+                        <span style="font-family:var(--font-heading);font-size:2.2rem;font-weight:700;color:var(--accent-gold);">$2.900</span> <span style="font-size:.85rem;color:var(--text-muted);">precio contado</span>
+                    </div>
+
+                    <div class="bank-data" style="margin-bottom:1.2rem;">
+                        <div class="bank-row" style="padding:.9rem 1.2rem;">
+                            <span style="font-size:.9rem;font-weight:600;color:#ccc;">Titular de la cuenta</span>
+                            <span style="font-size:1.1rem;font-weight:700;">Flavia Pereira</span>
+                        </div>
+                        <div class="bank-row" style="padding:.9rem 1.2rem;">
+                            <span style="font-size:.9rem;font-weight:600;color:#ccc;">N&uacute;mero de cuenta Prex</span>
+                            <span style="font-size:1.2rem;font-weight:700;letter-spacing:2px;color:var(--accent-gold);">158186</span>
+                        </div>
+                    </div>
+
+                    <div class="how-it-works" style="margin-bottom:1.2rem;">
+                        <p style="font-size:.8rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text-muted);margin-bottom:.8rem;">&#128073; C&oacute;mo hacer la transferencia paso a paso</p>
+                        <ol style="padding-left:1.4rem;display:flex;flex-direction:column;gap:.8rem;">
+                            <li style="font-size:.95rem;color:var(--text-muted);line-height:1.6;">
+                                Realiz&aacute; una transferencia al <strong style="color:#fff;">n&uacute;mero de cuenta 158186</strong> a nombre de <strong style="color:#fff;">Flavia Pereira</strong>.
+                            </li>
+                            <li style="font-size:.95rem;color:var(--text-muted);line-height:1.6;">
+                                Sac&aacute;te una <strong style="color:#fff;">captura de pantalla</strong> del comprobante de pago.
+                            </li>
+                            <li style="font-size:.95rem;color:var(--text-muted);line-height:1.6;">
+                                Presion&aacute; el bot&oacute;n verde para enviarlo por WhatsApp. &#9997;&#65039;
+                            </li>
+                        </ol>
+                    </div>
+
+                    <a id="btn-modal-wa" href="#" target="_blank" rel="noopener noreferrer" class="btn-enviar" style="font-size:.95rem;padding:1.2rem;gap:.8rem;">
+                        &#128241; ENVIAR COMPROBANTE POR WHATSAPP
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Floating WhatsApp Button -->
     <a href="https://wa.me/59898058264?text=Hola,%20quisiera%20información%20sobre%20el%20seminario%20de%20chocolatería."
