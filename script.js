@@ -281,7 +281,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const btnClose  = document.getElementById('modalClose');
 
     function openModal() {
-        updateWaLink();
         if(overlay) overlay.classList.add('open');
         document.body.style.overflow = 'hidden';
 
@@ -306,40 +305,6 @@ document.addEventListener('DOMContentLoaded', () => {
             e.preventDefault();
             openModal();
         });
-    });
-
-    // ── WhatsApp con datos del formulario ────────────────────────
-    function getFormData() {
-        return {
-            nombre:   (document.getElementById('f-nombre')?.value   || '').trim(),
-            apellido: (document.getElementById('f-apellido')?.value  || '').trim(),
-            email:    (document.getElementById('f-email')?.value     || '').trim(),
-            tel:      (document.getElementById('f-tel')?.value       || '').trim(),
-            cert:     document.querySelector('input[name="cert"]:checked')?.value || 'No indicado'
-        };
-    }
-
-    function updateWaLink() {
-        const fd = getFormData();
-        const msg = `Hola! Quiero enviar mi comprobante de transferencia para el Seminario de Chocolatería ($2.900 contado).
-
-Mis datos:
-• Nombre: ${fd.nombre} ${fd.apellido}
-• Email: ${fd.email || '(no indicado)'}
-• Tel/WhatsApp: ${fd.tel || '(no indicado)'}
-• Certificado: ${fd.cert}
-
-Adjunto el comprobante a continuación.`;
-        const waBtn = document.getElementById('btn-modal-wa');
-        if(waBtn) waBtn.href = 'https://wa.me/59898058264?text=' + encodeURIComponent(msg);
-    }
-
-    ['f-nombre','f-apellido','f-email','f-tel'].forEach(id => {
-        const el = document.getElementById(id);
-        if(el) el.addEventListener('input', updateWaLink);
-    });
-    document.querySelectorAll('input[name="cert"]').forEach(r => {
-        r.addEventListener('change', updateWaLink);
     });
 
     // ── Purchase tracking ────────────────────────────────────────

@@ -1668,20 +1668,6 @@ img {
 .modal-includes { display:flex; gap:.8rem; justify-content:center; flex-wrap:wrap; }
 .modal-include-tag { display:inline-flex; align-items:center; gap:.4rem; font-size:.8rem; color:var(--text-muted); background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.1); padding:.35rem .9rem; border-radius:50px; }
 
-/* Modal form */
-.modal-form { padding:1.5rem 2rem; border-bottom:1px solid rgba(255,255,255,.07); }
-.form-section-title { font-size:.72rem; font-weight:700; text-transform:uppercase; letter-spacing:2px; color:var(--text-muted); margin-bottom:1.2rem; }
-.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: .8rem; width: 100%; box-sizing: border-box; }
-.form-group { display: flex; flex-direction: column; gap: .4rem; margin-bottom: .8rem; width: 100%; }
-.form-group label { font-size:.72rem; font-weight:600; text-transform:uppercase; letter-spacing:1.5px; color:var(--text-muted); }
-.form-group input { background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.12); border-radius:10px; padding:.8rem 1rem; color:#fff; font-family:var(--font-body); font-size:.95rem; transition:border-color .2s ease; outline:none; width: 100%; box-sizing: border-box; }
-.form-group input::placeholder { color:rgba(255,255,255,.25); }
-.form-group input:focus { border-color:rgba(207,161,95,.5); background:rgba(255,255,255,.08); }
-.cert-options { display:flex; gap:1rem; flex-wrap:wrap; }
-.cert-label { display:flex; align-items:center; gap:.6rem; cursor:pointer; padding:.7rem 1.1rem; border-radius:10px; border:1px solid rgba(255,255,255,.1); transition:var(--transition); font-size:.9rem; color:var(--text-muted); }
-.cert-label input[type=radio] { accent-color:var(--accent-gold); width:16px; height:16px; }
-.cert-label:has(input:checked) { border-color:rgba(207,161,95,.5); background:rgba(207,161,95,.07); color:#fff; }
-
 /* Modal payment */
 .modal-payment { padding:1.5rem 2rem 2rem; display:flex; flex-direction:column; gap:1.2rem; }
 .pay-opt { background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.09); border-radius:14px; padding:1.5rem; }
@@ -1714,6 +1700,5 @@ img {
 .btn-mp-modal:hover { background:#007bbd; color:#fff; transform:translateY(-2px); }
 
 @media (max-width:500px) {
-    .modal-header, .modal-form, .modal-payment { padding-left:1.2rem; padding-right:1.2rem; }
-    .form-row { grid-template-columns:1fr; }
+    .modal-header, .modal-payment { padding-left:1.2rem; padding-right:1.2rem; }
 }
