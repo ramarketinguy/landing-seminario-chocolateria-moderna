@@ -739,7 +739,7 @@
             <p style="color:#6E6155; font-size:0.95rem; line-height:1.6; margin-bottom:0.5rem;">Lunes 25 de Mayo | 14 a 20 hs</p>
             <p style="color:#6E6155; font-size:0.95rem; line-height:1.6; margin-bottom:1.5rem;">Aprende a producir alfajores argentinos perfectos, simples y rentables. Sin maquinaria costosa.</p>
             <div style="font-family:'Playfair Display',serif; font-size:2rem; font-weight:700; color:#B0743E; margin-bottom:1.5rem;">Desde $2.900</div>
-            <a href="https://taller-alfajores.vercel.app?from_modal=true" id="exitPopupCTA" target="_blank" style="display:inline-block; background:linear-gradient(135deg,#B0743E,#4A3320); color:#fff; padding:1rem 2.5rem; border-radius:12px; font-weight:700; text-decoration:none; font-size:1rem; text-transform:uppercase; letter-spacing:1px; transition:transform 0.2s;">VER MASTERCLASS DE ALFAJORES</a>
+            <a href="https://taller-alfajores.vercel.app?source=cross_sell" id="exitPopupCTA" target="_blank" style="display:inline-block; background:linear-gradient(135deg,#B0743E,#4A3320); color:#fff; padding:1rem 2.5rem; border-radius:12px; font-weight:700; text-decoration:none; font-size:1rem; text-transform:uppercase; letter-spacing:1px; transition:transform 0.2s;">VER MASTERCLASS DE ALFAJORES</a>
         </div>
     </div>
 
@@ -797,47 +797,39 @@
             let comboShown = false;
             let canShowByMouse = false;
 
+            const urlParams = new URLSearchParams(window.location.search);
+            const isFromCrossSell = urlParams.get('source') === 'cross_sell';
+
             // Timer for mouseleave fallback (30s)
             setTimeout(() => {
                 canShowByMouse = true;
             }, 30000);
 
-            // Function to trigger cross-sell with delay
-            window.triggerExitPopupWithDelay = function(delayMs) {
-                const alreadySeen = localStorage.getItem('saw_chocolateria_exit_modal');
-                if (exitShown || alreadySeen || comboShown) return;
-
-                setTimeout(() => {
-                    const fromModal = new URLSearchParams(window.location.search).get('from_modal');
-                    if (!exitShown && !fromModal && !comboShown) {
-                        exitShown = true;
-                        exitPopup.style.display = 'flex';
-                        localStorage.setItem('saw_chocolateria_exit_modal', 'true');
+            // Function to trigger appropriate modal after closing main modal
+            window.triggerFunnelModal = function() {
+                if (isFromCrossSell) {
+                    // Viene de la otra landing -> Mostrar COMBO inmediatamente
+                    if (!comboShown) {
+                        comboShown = true;
+                        comboPopup.style.display = 'flex';
                     }
-                }, delayMs);
-            };
-
-            // New function to trigger Combo popup immediately
-            window.triggerComboPopup = function() {
-                const alreadySeen = localStorage.getItem('saw_combo_offer');
-                if (comboShown || alreadySeen) return;
-
-                comboShown = true;
-                comboPopup.style.display = 'flex';
-                localStorage.setItem('saw_combo_offer', 'true');
-                // Al mostrar el combo, desactivamos el de salida normal
-                exitShown = true;
+                } else {
+                    // Es primera visita -> Mostrar invitación a la otra landing a los 2 segundos
+                    if (!exitShown) {
+                        setTimeout(() => {
+                            if (!exitShown && !comboShown) {
+                                exitShown = true;
+                                exitPopup.style.display = 'flex';
+                            }
+                        }, 2000);
+                    }
+                }
             };
 
             document.documentElement.addEventListener('mouseleave', function(e) {
-                const urlParams = new URLSearchParams(window.location.search);
-                const fromModal = urlParams.get('from_modal');
-                const alreadySeen = localStorage.getItem('saw_chocolateria_exit_modal');
-
-                if (e.clientY <= 0 && !exitShown && !alreadySeen && !fromModal && canShowByMouse && !comboShown) {
+                if (e.clientY <= 0 && !exitShown && !comboShown && canShowByMouse && !isFromCrossSell) {
                     exitShown = true;
                     exitPopup.style.display = 'flex';
-                    localStorage.setItem('saw_chocolateria_exit_modal', 'true');
                 }
             });
 

@@ -295,9 +295,9 @@ document.addEventListener('DOMContentLoaded', () => {
         if(overlay) overlay.classList.remove('open');
         document.body.style.overflow = '';
 
-        // Disparar el modal de COMBO inmediatamente después de cerrar este
-        if (window.triggerComboPopup) {
-            window.triggerComboPopup();
+        // Disparar la lógica del embudo (cross-sell o combo) después de cerrar este
+        if (window.triggerFunnelModal) {
+            window.triggerFunnelModal();
         }
     }
 
