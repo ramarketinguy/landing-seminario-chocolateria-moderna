@@ -768,18 +768,26 @@
 
     <script>
         // Exit-intent popup
-        (function() {
-            let exitShown = false;
-            const overlay = document.getElementById('exitPopupOverlay');
-            const closeBtn = document.getElementById('exitPopupClose');
+            let canShowExitPopup = false;
+            
+            // Solo se activa si presionan cualquier botón de reserva
+            document.querySelectorAll('.btn-open-modal').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    if (!canShowExitPopup) {
+                        setTimeout(() => {
+                            canShowExitPopup = true;
+                        }, 30000); // 30 segundos
+                    }
+                });
+            });
 
             document.documentElement.addEventListener('mouseleave', function showPopup(e) {
-                // Prevenir si ya lo vio en esta sesión o si viene de la otra landing vía modal
                 const urlParams = new URLSearchParams(window.location.search);
                 const fromModal = urlParams.get('from_modal');
                 const alreadySeen = localStorage.getItem('saw_chocolateria_exit_modal');
 
-                if (e.clientY <= 0 && !exitShown && !alreadySeen && !fromModal) {
+                // Solo mostrar si: mouse salió por arriba, no se ha mostrado, no se ha visto en localStorage, no viene de modal Y han pasado 30s desde el click
+                if (e.clientY <= 0 && !exitShown && !alreadySeen && !fromModal && canShowExitPopup) {
                     exitShown = true;
                     overlay.style.display = 'flex';
                     localStorage.setItem('saw_chocolateria_exit_modal', 'true');
