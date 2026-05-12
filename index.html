@@ -128,7 +128,7 @@
                 </div>
             </div>
             <div class="nav-right">
-                <a href="#" class="btn btn-primary nav-btn-cta btn-open-modal">Inscribirme</a>
+                <a href="#" class="btn btn-primary nav-btn-cta btn-open-modal btn-attention">Inscribirme</a>
             </div>
         </div>
     </nav>
@@ -155,7 +155,7 @@
                 lográ un brillo impecable. Una experiencia demostrativa única junto a <strong>Blanc Sucre
                     Patissier</strong>.</p>
             <div class="hero-cta">
-                <a href="#" id="hero-btn-reservar" class="btn btn-primary pulse-glow btn-open-modal">Reservar mi lugar <i
+                <a href="#" id="hero-btn-reservar" class="btn btn-primary pulse-glow btn-open-modal btn-attention">Reservar mi lugar <i
                         data-feather="arrow-right"></i></a>
             </div>
         </div>
@@ -327,10 +327,13 @@
                 <span class="badge shimmer-badge" style="margin-bottom: 1rem;">Lo que dicen quienes ya participaron</span>
                 <h2 class="section-title" style="margin-top: 1rem;">Testimonios del <span>Taller Pasado</span></h2>
             </div>
-            <div class="reveal-up delay-1" style="position: relative; border-radius: 16px; overflow: hidden; box-shadow: var(--glass-shadow); aspect-ratio: 16/9; margin-top: 2rem;">
+            <div class="video-container-wrap reveal-up delay-1" style="position: relative; border-radius: 16px; overflow: hidden; box-shadow: var(--glass-shadow); aspect-ratio: 16/9; margin-top: 2rem; cursor: pointer;" onclick="this.querySelector('video').play(); this.querySelector('.video-overlay-play').style.display='none';">
                 <video controls playsinline preload="metadata" style="width: 100%; height: 100%; object-fit: cover; display: block;">
                     <source src="testimonios-web.mp4" type="video/mp4">
                 </video>
+                <div class="video-overlay-play play-pulse">
+                    <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                </div>
             </div>
         </div>
     </section>
@@ -523,10 +526,10 @@
     <section class="section final-cta">
         <div class="container text-center">
             <div class="final-cta-content glass-panel reveal-up">
-                <span class="badge shimmer-badge" style="background: #ff4444; color: white; font-size: 1rem;">ULTIMOS 5 LUGARES!</span>
+                <div class="scarcity-badge-v2">ULTIMOS 5 LUGARES!</div>
                 <h2 class="section-title" style="text-align: center; margin-top: 1.5rem;">¿Lista para dominar el <span>Chocolate?</span></h2>
                 <p class="section-desc" style="max-width: 500px; margin: 0 auto 2.5rem;">Asegurá tu lugar antes de que se agoten los cupos. Una experiencia que no vas a olvidar.</p>
-                <a href="#" class="btn btn-primary btn-large pulse-glow btn-open-modal">Reservar mi lugar <i data-feather="arrow-right"></i></a>
+                <a href="#" class="btn btn-primary btn-large pulse-glow btn-open-modal btn-attention">Reservar mi lugar <i data-feather="arrow-right"></i></a>
             </div>
         </div>
     </section>
@@ -736,7 +739,7 @@
             <p style="color:#6E6155; font-size:0.95rem; line-height:1.6; margin-bottom:0.5rem;">Lunes 25 de Mayo | 14 a 20 hs</p>
             <p style="color:#6E6155; font-size:0.95rem; line-height:1.6; margin-bottom:1.5rem;">Aprende a producir alfajores argentinos perfectos, simples y rentables. Sin maquinaria costosa.</p>
             <div style="font-family:'Playfair Display',serif; font-size:2rem; font-weight:700; color:#B0743E; margin-bottom:1.5rem;">Desde $2.900</div>
-            <a href="https://taller-alfajores.vercel.app" id="exitPopupCTA" target="_blank" style="display:inline-block; background:linear-gradient(135deg,#B0743E,#4A3320); color:#fff; padding:1rem 2.5rem; border-radius:12px; font-weight:700; text-decoration:none; font-size:1rem; text-transform:uppercase; letter-spacing:1px; transition:transform 0.2s;">VER MASTERCLASS DE ALFAJORES</a>
+            <a href="https://taller-alfajores.vercel.app?from_modal=true" id="exitPopupCTA" target="_blank" style="display:inline-block; background:linear-gradient(135deg,#B0743E,#4A3320); color:#fff; padding:1rem 2.5rem; border-radius:12px; font-weight:700; text-decoration:none; font-size:1rem; text-transform:uppercase; letter-spacing:1px; transition:transform 0.2s;">VER MASTERCLASS DE ALFAJORES</a>
         </div>
     </div>
 
@@ -770,10 +773,16 @@
             const overlay = document.getElementById('exitPopupOverlay');
             const closeBtn = document.getElementById('exitPopupClose');
 
-            document.documentElement.addEventListener('mouseleave', function(e) {
-                if (e.clientY <= 0 && !exitShown) {
+            document.documentElement.addEventListener('mouseleave', function showPopup(e) {
+                // Prevenir si ya lo vio en esta sesión o si viene de la otra landing vía modal
+                const urlParams = new URLSearchParams(window.location.search);
+                const fromModal = urlParams.get('from_modal');
+                const alreadySeen = localStorage.getItem('saw_chocolateria_exit_modal');
+
+                if (e.clientY <= 0 && !exitShown && !alreadySeen && !fromModal) {
                     exitShown = true;
                     overlay.style.display = 'flex';
+                    localStorage.setItem('saw_chocolateria_exit_modal', 'true');
                 }
             });
 
