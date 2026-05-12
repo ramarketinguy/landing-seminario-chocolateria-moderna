@@ -743,6 +743,25 @@
         </div>
     </div>
 
+    <!-- COMBO POPUP: Ambos Talleres -->
+    <div id="comboPopupOverlay" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.8); z-index:10001; align-items:center; justify-content:center; backdrop-filter:blur(8px);">
+        <div style="background:linear-gradient(135deg, #1e1008, #2d1a0f); border:2px solid #cfa15f; border-radius:24px; max-width:500px; width:95%; padding:3rem 2rem; text-align:center; position:relative; box-shadow:0 30px 100px rgba(0,0,0,0.8); animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);">
+            <button id="comboPopupClose" style="position:absolute; top:16px; right:20px; background:none; border:none; color:#cfa15f; font-size:2rem; cursor:pointer; opacity:0.6; transition:0.3s;">&times;</button>
+            <div style="display:inline-block; background:#cfa15f; color:#1e1008; padding:0.4rem 1.2rem; border-radius:50px; font-weight:800; font-size:0.75rem; text-transform:uppercase; letter-spacing:2px; margin-bottom:1.5rem; box-shadow:0 4px 15px rgba(207,161,95,0.3);">Oportunidad Única</div>
+            <h3 style="font-family: 'Playfair Display', serif; font-size:2.2rem; color:#fff; margin-bottom:1rem; line-height:1.2;">¡Llevate ambos talleres con 15% OFF!</h3>
+            <p style="color:#d0c4b6; font-size:1.1rem; line-height:1.6; margin-bottom:2rem;">Aprendé <strong>Alfajores Rentables</strong> + <strong>Chocolatería Moderna</strong> y convertite en una experta completa.</p>
+            
+            <div style="background:rgba(255,255,255,0.05); border-radius:15px; padding:1.5rem; margin-bottom:2rem; border:1px dashed rgba(207,161,95,0.4);">
+                <div style="font-size:0.9rem; color:#cfa15f; text-decoration:line-through; margin-bottom:0.3rem;">Precio total: $5.800</div>
+                <div style="font-family: 'Playfair Display', serif; font-size:3.5rem; font-weight:700; color:#fff; line-height:1;">$4.930</div>
+                <div style="font-size:0.9rem; color:#d0c4b6; margin-top:0.5rem;">Ahorrás $870 hoy</div>
+            </div>
+
+            <a href="https://wa.me/59898058264?text=Hola!%20Quiero%20aprovechar%20la%20oferta%20del%20COMBO%20de%20ambos%20talleres%20($4.930%20contado)." target="_blank" id="comboPopupCTA" style="display:block; background:linear-gradient(135deg,#cfa15f,#b46b3e); color:#1e1008; padding:1.2rem; border-radius:14px; font-weight:800; text-decoration:none; font-size:1.1rem; text-transform:uppercase; letter-spacing:1px; transition:0.3s; box-shadow:0 10px 30px rgba(180,107,62,0.4);">QUIERO EL COMBO (15% OFF)</a>
+            <button id="comboPopupSecondary" style="background:none; border:none; color:rgba(208,196,182,0.6); margin-top:1.5rem; font-size:0.85rem; cursor:pointer; text-decoration:underline;">No gracias, prefiero pagar el precio completo por separado</button>
+        </div>
+    </div>
+
     <style>
         @keyframes popIn { from { opacity:0; transform:scale(0.9) translateY(20px); } to { opacity:1; transform:scale(1) translateY(0); } }
         @keyframes urgencyPulse { 0%,100% { opacity:1; } 50% { opacity:0.7; } }
@@ -770,7 +789,12 @@
         (function() {
             const exitPopup = document.getElementById('exitPopupOverlay');
             const exitClose = document.getElementById('exitPopupClose');
+            const comboPopup = document.getElementById('comboPopupOverlay');
+            const comboClose = document.getElementById('comboPopupClose');
+            const comboSecondary = document.getElementById('comboPopupSecondary');
+            
             let exitShown = false;
+            let comboShown = false;
             let canShowByMouse = false;
 
             // Timer for mouseleave fallback (30s)
@@ -781,11 +805,11 @@
             // Function to trigger cross-sell with delay
             window.triggerExitPopupWithDelay = function(delayMs) {
                 const alreadySeen = localStorage.getItem('saw_chocolateria_exit_modal');
-                if (exitShown || alreadySeen) return;
+                if (exitShown || alreadySeen || comboShown) return;
 
                 setTimeout(() => {
                     const fromModal = new URLSearchParams(window.location.search).get('from_modal');
-                    if (!exitShown && !fromModal) {
+                    if (!exitShown && !fromModal && !comboShown) {
                         exitShown = true;
                         exitPopup.style.display = 'flex';
                         localStorage.setItem('saw_chocolateria_exit_modal', 'true');
@@ -793,12 +817,24 @@
                 }, delayMs);
             };
 
+            // New function to trigger Combo popup immediately
+            window.triggerComboPopup = function() {
+                const alreadySeen = localStorage.getItem('saw_combo_offer');
+                if (comboShown || alreadySeen) return;
+
+                comboShown = true;
+                comboPopup.style.display = 'flex';
+                localStorage.setItem('saw_combo_offer', 'true');
+                // Al mostrar el combo, desactivamos el de salida normal
+                exitShown = true;
+            };
+
             document.documentElement.addEventListener('mouseleave', function(e) {
                 const urlParams = new URLSearchParams(window.location.search);
                 const fromModal = urlParams.get('from_modal');
                 const alreadySeen = localStorage.getItem('saw_chocolateria_exit_modal');
 
-                if (e.clientY <= 0 && !exitShown && !alreadySeen && !fromModal && canShowByMouse) {
+                if (e.clientY <= 0 && !exitShown && !alreadySeen && !fromModal && canShowByMouse && !comboShown) {
                     exitShown = true;
                     exitPopup.style.display = 'flex';
                     localStorage.setItem('saw_chocolateria_exit_modal', 'true');
@@ -807,7 +843,17 @@
 
             if (exitClose) exitClose.addEventListener('click', () => exitPopup.style.display = 'none');
             exitPopup.addEventListener('click', (e) => { if (e.target === exitPopup) exitPopup.style.display = 'none'; });
-            document.addEventListener('keydown', (e) => { if (e.key === 'Escape') exitPopup.style.display = 'none'; });
+            
+            if (comboClose) comboClose.addEventListener('click', () => comboPopup.style.display = 'none');
+            if (comboSecondary) comboSecondary.addEventListener('click', () => comboPopup.style.display = 'none');
+            comboPopup.addEventListener('click', (e) => { if (e.target === comboPopup) comboPopup.style.display = 'none'; });
+
+            document.addEventListener('keydown', (e) => { 
+                if (e.key === 'Escape') {
+                    exitPopup.style.display = 'none';
+                    comboPopup.style.display = 'none';
+                }
+            });
         })();
     </script>
 

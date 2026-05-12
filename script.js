@@ -295,9 +295,9 @@ document.addEventListener('DOMContentLoaded', () => {
         if(overlay) overlay.classList.remove('open');
         document.body.style.overflow = '';
 
-        // Disparar el modal de cross-sell (taller alfajores) 5 segundos después de cerrar este
-        if (window.triggerExitPopupWithDelay) {
-            window.triggerExitPopupWithDelay(5000);
+        // Disparar el modal de COMBO inmediatamente después de cerrar este
+        if (window.triggerComboPopup) {
+            window.triggerComboPopup();
         }
     }
 
