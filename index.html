@@ -767,44 +767,47 @@
     <div class="urgency-top-banner">ULTIMOS 5 LUGARES - Seminario de Chocolateria Moderna</div>
 
     <script>
-        // Exit-intent popup
-            let canShowExitPopup = false;
-            
-            // Solo se activa si presionan cualquier botón de reserva
-            document.querySelectorAll('.btn-open-modal').forEach(btn => {
-                btn.addEventListener('click', () => {
-                    if (!canShowExitPopup) {
-                        setTimeout(() => {
-                            canShowExitPopup = true;
-                        }, 30000); // 30 segundos
-                    }
-                });
-            });
+        (function() {
+            const exitPopup = document.getElementById('exitPopupOverlay');
+            const exitClose = document.getElementById('exitPopupClose');
+            let exitShown = false;
+            let canShowByMouse = false;
 
-            document.documentElement.addEventListener('mouseleave', function showPopup(e) {
+            // Timer for mouseleave fallback (30s)
+            setTimeout(() => {
+                canShowByMouse = true;
+            }, 30000);
+
+            // Function to trigger cross-sell with delay
+            window.triggerExitPopupWithDelay = function(delayMs) {
+                const alreadySeen = localStorage.getItem('saw_chocolateria_exit_modal');
+                if (exitShown || alreadySeen) return;
+
+                setTimeout(() => {
+                    const fromModal = new URLSearchParams(window.location.search).get('from_modal');
+                    if (!exitShown && !fromModal) {
+                        exitShown = true;
+                        exitPopup.style.display = 'flex';
+                        localStorage.setItem('saw_chocolateria_exit_modal', 'true');
+                    }
+                }, delayMs);
+            };
+
+            document.documentElement.addEventListener('mouseleave', function(e) {
                 const urlParams = new URLSearchParams(window.location.search);
                 const fromModal = urlParams.get('from_modal');
                 const alreadySeen = localStorage.getItem('saw_chocolateria_exit_modal');
 
-                // Solo mostrar si: mouse salió por arriba, no se ha mostrado, no se ha visto en localStorage, no viene de modal Y han pasado 30s desde el click
-                if (e.clientY <= 0 && !exitShown && !alreadySeen && !fromModal && canShowExitPopup) {
+                if (e.clientY <= 0 && !exitShown && !alreadySeen && !fromModal && canShowByMouse) {
                     exitShown = true;
-                    overlay.style.display = 'flex';
+                    exitPopup.style.display = 'flex';
                     localStorage.setItem('saw_chocolateria_exit_modal', 'true');
                 }
             });
 
-            if (closeBtn) closeBtn.addEventListener('click', function() {
-                overlay.style.display = 'none';
-            });
-
-            overlay.addEventListener('click', function(e) {
-                if (e.target === overlay) overlay.style.display = 'none';
-            });
-
-            document.addEventListener('keydown', function(e) {
-                if (e.key === 'Escape') overlay.style.display = 'none';
-            });
+            if (exitClose) exitClose.addEventListener('click', () => exitPopup.style.display = 'none');
+            exitPopup.addEventListener('click', (e) => { if (e.target === exitPopup) exitPopup.style.display = 'none'; });
+            document.addEventListener('keydown', (e) => { if (e.key === 'Escape') exitPopup.style.display = 'none'; });
         })();
     </script>
 
