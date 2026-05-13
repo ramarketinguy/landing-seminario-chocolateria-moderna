@@ -1,3 +1,26 @@
+// Función para hashear PII (Email/Phone) usando SHA-256 (Protocolo Claude Ads)
+async function sha256(message) {
+    if (!message) return null;
+    const msgBuffer = new TextEncoder().encode(message.trim().toLowerCase());
+    const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
+// Capturar PII de la URL para Advanced Matching (Opción 1)
+const urlParams = new URLSearchParams(window.location.search);
+const rawEmail = urlParams.get('email') || urlParams.get('em');
+const rawPhone = urlParams.get('phone') || urlParams.get('ph');
+
+let hashedEmail = null;
+let hashedPhone = null;
+
+// Pre-hashear si existen en la URL
+(async () => {
+    if (rawEmail) hashedEmail = await sha256(rawEmail);
+    if (rawPhone) hashedPhone = await sha256(rawPhone);
+})();
+
 document.addEventListener('DOMContentLoaded', () => {
     // Initialize feather icons
     if (typeof feather !== 'undefined') {
@@ -178,22 +201,23 @@ document.addEventListener('DOMContentLoaded', () => {
     // =============================================
     // Meta CAPI & Pixel Tracking
     // =============================================
-    function trackEvent(eventName, eventData = {}, customData = {}, attributionData = {}) {
+    async function trackEvent(eventName, eventData = {}, customData = {}, attributionData = {}) {
         // Generate unique event_id for deduplication between Pixel and CAPI
         const timeNow = Math.floor(Date.now() / 1000);
         const eventId = 'evt_' + timeNow + '_' + Math.random().toString(36).slice(2, 11);
 
         // 1. Fire Pixel directly (with event_id for deduplication)
         if (typeof fbq === 'function') {
-            fbq('track', eventName, customData, { eventID: eventId });
+            const pixelData = { ...customData };
+            // Si tenemos PII hasheada, la incluimos en el objeto de inicialización o track si fuera necesario
+            // Nota: Para Pixel estándar el Advanced Matching se suele pasar en el 'init'.
+            fbq('track', eventName, pixelData, { eventID: eventId });
         }
 
         // 2. Fire CAPI via serverless proxy
-        // Try to get or set fbc and fbp cookies for better CAPI matching
         const getOrSetFbp = () => {
             const match = document.cookie.match(new RegExp('(^| )_fbp=([^;]+)'));
             if (match) return match[2];
-            // Meta _fbp format: fb.subdomainIndex.creationTime.random
             const newFbp = `fb.1.${Date.now()}.${Math.round(Math.random() * 10000000000)}`;
             const date = new Date();
             date.setTime(date.getTime() + (90 * 24 * 60 * 60 * 1000));
@@ -204,12 +228,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const getOrSetFbc = () => {
             const match = document.cookie.match(new RegExp('(^| )_fbc=([^;]+)'));
             if (match) return match[2];
-
-            // Si no hay cookie fbc, intentar extraer el fbclid de la URL e inferir fbc
-            const urlParams = new URLSearchParams(window.location.search);
             const fbclid = urlParams.get('fbclid');
             if (fbclid) {
-                // Formato oficial: fb.subdomainIndex.creationTimeInMs.fbclid
                 const newFbc = `fb.1.${Date.now()}.${fbclid}`;
                 const date = new Date();
                 date.setTime(date.getTime() + (90 * 24 * 60 * 60 * 1000));
@@ -224,12 +244,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const userData = {
             client_user_agent: navigator.userAgent,
-            external_id: getExternalId(), // Envía un ID único para mejorar Data Quality
+            external_id: getExternalId(),
             ...eventData
         };
 
         if (fbp) userData.fbp = fbp;
         if (fbc) userData.fbc = fbc;
+
+        // Añadir PII hasheada si existe (Advanced Matching)
+        if (hashedEmail) userData.em = hashedEmail;
+        if (hashedPhone) userData.ph = hashedPhone;
 
         const eventPayload = {
             event_name: eventName,
@@ -240,7 +264,6 @@ document.addEventListener('DOMContentLoaded', () => {
             user_data: userData,
         };
 
-        // Meta API rejects the request (400) if these are sent as empty objects {}
         if (Object.keys(customData).length > 0) {
             eventPayload.custom_data = customData;
         }
@@ -252,8 +275,6 @@ document.addEventListener('DOMContentLoaded', () => {
             data: [eventPayload]
         };
 
-        // Obtener test_event_code de la URL si existe para probar eventos
-        const urlParams = new URLSearchParams(window.location.search);
         const testCode = urlParams.get('test_event_code');
         if (testCode) {
             payload.test_event_code = testCode;

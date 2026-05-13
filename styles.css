@@ -1774,4 +1774,39 @@ img {
     50% { transform: scale(1.05); background: #e60000; }
     100% { transform: scale(1); }
 }
+
+/* ============== MOBILE STICKY CTA (Claude Ads Protocol) ============== */
+.mobile-sticky-cta {
+    display: none;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: rgba(15, 7, 6, 0.9);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    padding: 1rem;
+    z-index: 999;
+    border-top: 1px solid rgba(207, 161, 95, 0.3);
+    box-shadow: 0 -5px 25px rgba(0, 0, 0, 0.5);
+}
+
+@media (max-width: 600px) {
+    .mobile-sticky-cta {
+        display: block;
+    }
+    
+    /* Ajustar padding del footer para que no se tape el contenido */
+    .footer {
+        padding-bottom: 8rem;
+    }
+}
+
+.mobile-sticky-cta .btn {
+    width: 100%;
+    justify-content: center;
+    padding: 1rem;
+    font-size: 1.1rem;
+    box-shadow: 0 4px 15px rgba(207, 161, 95, 0.4);
+}
 

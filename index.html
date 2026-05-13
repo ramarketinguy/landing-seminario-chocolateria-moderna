@@ -110,6 +110,43 @@
             src="https://www.facebook.com/tr?id=996195842979937&ev=PageView&noscript=1" /></noscript>
     <!-- End Meta Pixel Code -->
 
+    <!-- Schema.org JSON-LD (Claude Ads Protocol G61) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Course",
+      "name": "Seminario de Chocolatería Moderna",
+      "description": "Aprende las técnicas más avanzadas de chocolatería: brillo sin templar, uso de moldes y pinturas de alta calidad.",
+      "provider": {
+        "@type": "Organization",
+        "name": "Redulce Recetas",
+        "url": "https://www.redulce.com"
+      },
+      "hasCourseInstance": {
+        "@type": "CourseInstance",
+        "courseMode": "Presencial",
+        "location": {
+          "@type": "Place",
+          "name": "Boulevard Eventos",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "Carlos Bacigalupi 2159",
+            "addressLocality": "Montevideo",
+            "addressCountry": "UY"
+          }
+        },
+        "startDate": "2026-05-24T14:00",
+        "endDate": "2026-05-24T20:00",
+        "offers": {
+          "@type": "Offer",
+          "price": "2900",
+          "priceCurrency": "UYU",
+          "availability": "https://schema.org/InStock"
+        }
+      }
+    }
+    </script>
+
     <!-- Feather Icons -->
     <script src="https://unpkg.com/feather-icons"></script>
 </head>
@@ -328,7 +365,7 @@
                 <h2 class="section-title" style="margin-top: 1rem;">Testimonios del <span>Taller Pasado</span></h2>
             </div>
             <div class="video-container-wrap reveal-up delay-1" style="position: relative; border-radius: 16px; overflow: hidden; box-shadow: var(--glass-shadow); aspect-ratio: 16/9; margin-top: 2rem; cursor: pointer;" onclick="this.querySelector('video').play(); this.querySelector('.video-overlay-play').style.display='none';">
-                <video controls playsinline preload="metadata" style="width: 100%; height: 100%; object-fit: cover; display: block;">
+                <video controls playsinline preload="metadata" poster="Fotos/WhatsApp Image 2026-02-28 at 14.55.52.jpeg" style="width: 100%; height: 100%; object-fit: cover; display: block;">
                     <source src="testimonios-web.mp4" type="video/mp4">
                 </video>
                 <div class="video-overlay-play play-pulse">
@@ -388,35 +425,35 @@
             <div class="gallery-grid">
                 <div class="gallery-item gallery-stagger">
                     <img src="Fotos/WhatsApp Image 2026-02-28 at 14.55.54.jpeg"
-                        alt="Bombones artesanales con decoración colorida" loading="lazy">
+                        alt="Bombones artesanales con decoración colorida" loading="lazy" width="400" height="500">
                 </div>
                 <div class="gallery-item gallery-stagger">
                     <img src="Fotos/WhatsApp Image 2026-02-28 at 14.55.55.jpeg"
-                        alt="Técnica de pintura sobre moldes de chocolate" loading="lazy">
+                        alt="Técnica de pintura sobre moldes de chocolate" loading="lazy" width="400" height="500">
                 </div>
                 <div class="gallery-item gallery-stagger">
                     <img src="Fotos/WhatsApp Image 2026-02-28 at 14.55.52 (2).jpeg"
-                        alt="Selección de bombones con acabado brillante" loading="lazy">
+                        alt="Selección de bombones con acabado brillante" loading="lazy" width="400" height="500">
                 </div>
                 <div class="gallery-item gallery-stagger">
                     <img src="Fotos/WhatsApp Image 2026-02-28 at 14.55.53 (2).jpeg"
-                        alt="Detalle de decoración artística en chocolate" loading="lazy">
+                        alt="Detalle de decoración artística en chocolate" loading="lazy" width="400" height="500">
                 </div>
                 <div class="gallery-item gallery-stagger">
                     <img src="Fotos/WhatsApp Image 2026-02-28 at 14.55.54 (2).jpeg"
-                        alt="Bombones de chocolate elaborados en clase" loading="lazy">
+                        alt="Bombones de chocolate elaborados en clase" loading="lazy" width="400" height="500">
                 </div>
                 <div class="gallery-item gallery-stagger">
                     <img src="Fotos/WhatsApp Image 2026-02-28 at 14.55.52 (3).jpeg"
-                        alt="Variedad de bombones con rellenos de autor" loading="lazy">
+                        alt="Variedad de bombones con rellenos de autor" loading="lazy" width="400" height="500">
                 </div>
                 <div class="gallery-item gallery-stagger">
                     <img src="Fotos/WhatsApp Image 2026-02-28 at 14.55.53 (3).jpeg"
-                        alt="Proceso de desmolde de bombones artesanales" loading="lazy">
+                        alt="Bombones artesanales con acabado profesional" loading="lazy" width="400" height="500">
                 </div>
                 <div class="gallery-item gallery-stagger">
                     <img src="Fotos/WhatsApp Image 2026-02-28 at 14.55.54 (3).jpeg"
-                        alt="Presentación final de bombones del seminario" loading="lazy">
+                        alt="Presentación final de bombones del seminario" loading="lazy" width="400" height="500">
                 </div>
             </div>
         </div>
@@ -848,6 +885,14 @@
             });
         })();
     </script>
+
+    <!-- Mobile Sticky CTA (Claude Ads Protocol) -->
+    <div class="mobile-sticky-cta">
+        <a href="#contacto" class="btn btn-primary">
+            <span>¡QUIERO INSCRIBIRME!</span>
+            <i data-feather="arrow-right"></i>
+        </a>
+    </div>
 
     <script src="script.js"></script>
 </body>
