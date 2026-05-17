@@ -336,14 +336,14 @@ document.addEventListener('DOMContentLoaded', () => {
     // ── Purchase tracking ────────────────────────────────────────
     const btnMp = document.getElementById('btn-modal-mp');
     if(btnMp) btnMp.addEventListener('click', () => {
-        trackEvent('Purchase', {}, { currency:'UYU', value: 3200,
+        trackEvent('AddPaymentInfo', {}, { currency:'UYU', value: 3200,
             content_name: 'Seminario de Chocolatería — Tarjeta',
             content_ids: ['seminario_chocolateria_2026'], content_type:'product', num_items: 1 });
     });
 
     const btnWa = document.getElementById('btn-modal-wa');
     if(btnWa) btnWa.addEventListener('click', () => {
-        trackEvent('Purchase', {}, { currency:'UYU', value: 2900,
+        trackEvent('Lead', {}, { currency:'UYU', value: 2900,
             content_name: 'Seminario de Chocolatería — Contado',
             content_ids: ['seminario_chocolateria_2026'], content_type:'product', num_items: 1 });
     });

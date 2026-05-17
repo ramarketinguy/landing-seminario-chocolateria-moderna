@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gracias | Seminario de Chocolater&iacute;a</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Ccircle cx=%2250%22 cy=%2250%22 r=%2244%22 fill=%22%23cfa15f%22/%3E%3C/svg%3E">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Playfair+Display:ital,wght@0,400;0,700;1,700&display=swap" rel="stylesheet">
+
+    <!-- Meta Pixel Code -->
+    <script>
+        function getExternalId() {
+            let extId = localStorage.getItem('_external_id');
+            if (!extId) {
+                extId = 'anon_' + Math.floor(Date.now() / 1000) + '_' + Math.random().toString(36).substring(2, 15);
+                localStorage.setItem('_external_id', extId);
+            }
+            return extId;
+        }
+        !function(f,b,e,v,n,t,s)
+        {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+        n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+        if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+        n.queue=[];t=b.createElement(e);t.async=!0;
+        t.src=v;s=b.getElementsByTagName(e)[0];
+        s.parentNode.insertBefore(t,s)}(window, document,'script',
+        'https://connect.facebook.net/en_US/fbevents.js');
+        fbq('init', '996195842979937', { external_id: getExternalId() });
+        fbq('init', '668514569606718', { external_id: getExternalId() });
+        fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=996195842979937&ev=PageView&noscript=1"></noscript>
+    <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=668514569606718&ev=PageView&noscript=1"></noscript>
+    <!-- End Meta Pixel Code -->
+
+    <style>
+        :root {
+            --primary: #1c1110;
+            --accent: #cfa15f;
+            --bg: #f9f3ea;
+            --text: #211816;
+            --muted: #6e6155;
+            --success: #27ae60;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 18px;
+            font-family: 'Outfit', sans-serif;
+            color: var(--text);
+            background:
+                radial-gradient(circle at 16% 12%, rgba(207, 161, 95, 0.16), transparent 34%),
+                radial-gradient(circle at 84% 88%, rgba(92, 51, 31, 0.12), transparent 34%),
+                var(--bg);
+        }
+        .card {
+            width: 100%;
+            max-width: 430px;
+            padding: 30px 24px;
+            border-radius: 24px;
+            background: rgba(255, 255, 255, 0.96);
+            border: 1px solid rgba(207, 161, 95, 0.25);
+            box-shadow: 0 22px 48px rgba(28, 17, 16, 0.14);
+            text-align: center;
+        }
+        .check {
+            width: 52px;
+            height: 52px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 18px;
+            border-radius: 50%;
+            color: #fff;
+            background: linear-gradient(135deg, var(--success), #2ecc71);
+            font-size: 1.3rem;
+            font-weight: 800;
+        }
+        h1 {
+            margin-bottom: 10px;
+            font-family: 'Playfair Display', serif;
+            color: var(--primary);
+            font-size: 1.6rem;
+            line-height: 1.2;
+        }
+        .intro {
+            margin-bottom: 24px;
+            color: var(--muted);
+            font-size: 0.95rem;
+            line-height: 1.55;
+        }
+        .box {
+            margin-bottom: 18px;
+            padding: 20px;
+            border: 1px solid #f1d7af;
+            border-radius: 16px;
+            background: #fff8ef;
+        }
+        .box h2 {
+            margin-bottom: 8px;
+            color: #8a5b25;
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 1.4px;
+        }
+        .box p {
+            margin-bottom: 16px;
+            color: #5f4431;
+            font-size: 0.9rem;
+            line-height: 1.45;
+        }
+        .btn {
+            width: 100%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 13px 18px;
+            border-radius: 12px;
+            border: 0;
+            text-decoration: none;
+            font-weight: 800;
+            font-size: 0.92rem;
+            cursor: pointer;
+        }
+        .btn-wa {
+            color: #fff;
+            background: #25d366;
+            box-shadow: 0 8px 18px rgba(37, 211, 102, 0.22);
+        }
+        .btn-outline {
+            margin-top: 10px;
+            color: #128c7e;
+            background: #fff;
+            border: 2px solid #25d366;
+        }
+        .note {
+            display: block;
+            margin-top: 10px;
+            color: #807168;
+            font-size: 0.72rem;
+        }
+        .back {
+            display: inline-block;
+            margin-top: 22px;
+            color: var(--muted);
+            text-decoration: none;
+            font-size: 0.82rem;
+            font-weight: 700;
+            opacity: 0.55;
+        }
+        @media (max-width: 420px) {
+            .card { padding: 26px 20px; }
+            h1 { font-size: 1.45rem; }
+        }
+    </style>
+</head>
+<body>
+    <main class="card">
+        <div class="check">&#10003;</div>
+        <h1 id="main-h1">Ya casi est&aacute;</h1>
+        <p class="intro" id="main-p">Tu lugar est&aacute; reservado temporalmente. Para confirmarlo definitivamente, envianos el comprobante por WhatsApp.</p>
+
+        <section class="box">
+            <h2>Paso final</h2>
+            <p id="cta-p">Entr&aacute; al grupo para recibir informaci&oacute;n del seminario y coordinar cualquier detalle con la organizaci&oacute;n.</p>
+            <a href="https://chat.whatsapp.com/BGKuvkzAdYX62bUxhJRLMe?mode=gi_t" class="btn btn-wa" id="main-action-btn">Entrar al grupo</a>
+            <span class="note">Consultas adicionales con las administradoras del grupo.</span>
+        </section>
+
+        <div id="transfer-section">
+            <a href="#" id="wa-comprobante-btn" class="btn btn-outline">Enviar comprobante</a>
+        </div>
+
+        <a href="index.html" class="back">Volver al inicio</a>
+    </main>
+
+    <script>
+        function getOrSetFbp() {
+            const match = document.cookie.match(new RegExp('(^| )_fbp=([^;]+)'));
+            if (match) return match[2];
+            const value = `fb.1.${Date.now()}.${Math.round(Math.random() * 10000000000)}`;
+            const date = new Date();
+            date.setTime(date.getTime() + 90 * 24 * 60 * 60 * 1000);
+            document.cookie = `_fbp=${value};expires=${date.toUTCString()};path=/`;
+            return value;
+        }
+
+        function getOrSetFbc() {
+            const match = document.cookie.match(new RegExp('(^| )_fbc=([^;]+)'));
+            if (match) return match[2];
+            const fbclid = new URLSearchParams(window.location.search).get('fbclid');
+            if (!fbclid) return null;
+            const value = `fb.1.${Date.now()}.${fbclid}`;
+            const date = new Date();
+            date.setTime(date.getTime() + 90 * 24 * 60 * 60 * 1000);
+            document.cookie = `_fbc=${value};expires=${date.toUTCString()};path=/`;
+            return value;
+        }
+
+        function readSavedUserData() {
+            try {
+                return JSON.parse(localStorage.getItem('user_data') || '{}');
+            } catch (e) {
+                return {};
+            }
+        }
+
+        function buildUserData() {
+            const saved = readSavedUserData();
+            const userData = {
+                client_user_agent: navigator.userAgent,
+                external_id: getExternalId()
+            };
+            const fbp = getOrSetFbp();
+            const fbc = getOrSetFbc();
+            if (fbp) userData.fbp = fbp;
+            if (fbc) userData.fbc = fbc;
+            if (saved.email) userData.em = saved.email;
+            if (saved.phone) userData.ph = saved.phone;
+            if (saved.fname) userData.fn = saved.fname;
+            if (saved.lname) userData.ln = saved.lname;
+            return userData;
+        }
+
+        function capiEvent(eventName, value, isCombo, eventId) {
+            const customData = {
+                currency: 'UYU',
+                value,
+                num_items: 1,
+                content_type: 'product',
+                content_ids: [isCombo ? 'combo_alfajores_choco_2026' : 'seminario_chocolateria_2026'],
+                content_name: isCombo ? 'Combo Alfajores + Chocolateria' : 'Seminario de Chocolateria Moderna'
+            };
+            const payload = {
+                data: [{
+                    event_name: eventName,
+                    event_time: Math.floor(Date.now() / 1000),
+                    action_source: 'website',
+                    event_id: eventId,
+                    event_source_url: window.location.href,
+                    user_data: buildUserData(),
+                    custom_data: customData
+                }]
+            };
+            const testCode = new URLSearchParams(window.location.search).get('test_event_code');
+            if (testCode) payload.test_event_code = testCode;
+            fetch('/api/meta-capi', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            }).catch(() => {});
+        }
+
+        function updateUI() {
+            const params = new URLSearchParams(window.location.search);
+            const method = params.get('method');
+            const plan = params.get('plan') || 'Seminario';
+            const isCombo = plan.toUpperCase().includes('COMBO');
+            const saved = readSavedUserData();
+            const firstName = saved.fname || 'Participante';
+            const waBase = 'https://wa.me/59898058264?text=';
+
+            if (method === 'card') {
+                document.getElementById('main-h1').textContent = 'Inscripcion exitosa';
+                document.getElementById('main-p').innerHTML = `Felicidades <strong>${firstName}</strong>. Ya aseguraste tu lugar para el seminario.`;
+                document.getElementById('transfer-section').style.display = 'none';
+                const mainBtn = document.getElementById('main-action-btn');
+                mainBtn.textContent = 'Confirmar asistencia';
+                mainBtn.onclick = function(e) {
+                    e.preventDefault();
+                    const msg = encodeURIComponent(`Hola! Soy ${saved.fname || ''} ${saved.lname || ''}. Acabo de realizar el pago por tarjeta para el ${plan}. Mi correo es ${saved.email || '-'} y mi telefono es ${saved.phone || '-'}.`);
+                    window.open(waBase + msg, '_blank');
+                    setTimeout(() => {
+                        window.location.href = 'https://chat.whatsapp.com/BGKuvkzAdYX62bUxhJRLMe?mode=gi_t';
+                    }, 2000);
+                };
+
+                if (!sessionStorage.getItem('_purchase_fired_choco')) {
+                    sessionStorage.setItem('_purchase_fired_choco', '1');
+                    const saleValue = isCombo ? 5440 : 3200;
+                    const eventId = 'evt_' + Math.floor(Date.now() / 1000) + '_' + Math.random().toString(36).slice(2, 11) + '_card_auto';
+                    if (typeof fbq !== 'undefined') {
+                        fbq('track', 'Purchase', { currency: 'UYU', value: saleValue }, { eventID: eventId });
+                    }
+                    capiEvent('Purchase', saleValue, isCombo, eventId);
+                }
+            } else {
+                const comprobanteBtn = document.getElementById('wa-comprobante-btn');
+                const msg = encodeURIComponent(`Hola! Soy ${saved.fname || ''} ${saved.lname || ''}. Acabo de realizar la transferencia para el ${plan}. Mi correo es ${saved.email || '-'} y mi telefono es ${saved.phone || '-'}. Adjunto comprobante.`);
+                comprobanteBtn.href = waBase + msg;
+                comprobanteBtn.onclick = function() {
+                    const saleValue = isCombo ? 4930 : 2900;
+                    const eventId = 'evt_' + Math.floor(Date.now() / 1000) + '_' + Math.random().toString(36).slice(2, 11) + '_transfer';
+                    if (typeof fbq !== 'undefined') {
+                        fbq('track', 'Lead', { currency: 'UYU', value: saleValue }, { eventID: eventId });
+                    }
+                    capiEvent('Lead', saleValue, isCombo, eventId);
+                };
+            }
+        }
+
+        window.addEventListener('load', updateUI);
+    </script>
+</body>
+</html>
